@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shenal Ashendra — Mechanical Design Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #14171A;
+    --panel: #1B1F23;
+    --paper: #F1EEE7;
+    --paper-dim: #C8C4BA;
+    --hv: #FF6A1A;
+    --hv-dim: #7A3A1A;
+    --steel: #6E828F;
+    --grid-line: rgba(241,238,231,0.07);
+    --hairline: rgba(241,238,231,0.16);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--body);
+    line-height: 1.5;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  a{ color: inherit; }
+
+  ::selection{ background: var(--hv); color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  :focus-visible{
+    outline: 2px solid var(--hv);
+    outline-offset: 3px;
+  }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--hv);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 6vw;
+    background: rgba(20,23,26,0.88);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-mark{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav-mark .dot{ width:7px; height:7px; background:var(--hv); border-radius:1px; display:inline-block; }
+  .nav-links{ display:flex; gap: clamp(14px, 2vw, 32px); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .nav-links a{ text-decoration:none; color: var(--paper-dim); border-bottom: 1px solid transparent; padding-bottom: 3px; transition: color .15s, border-color .15s; }
+  .nav-links a:hover{ color: var(--paper); border-color: var(--hv); }
+  .nav-toggle{ display:none; }
+
+  @media (max-width: 720px){
+    .nav-links{ display:none; }
+  }
+
+  section{ padding: clamp(60px, 9vw, 120px) 6vw; position: relative; }
+  .section-inner{ max-width: 1180px; margin: 0 auto; }
+
+  /* corner bracket panel treatment */
+  .drawing-panel{
+    position: relative;
+    border: 1px solid var(--hairline);
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+  }
+  .drawing-panel::before, .drawing-panel::after,
+  .corner-tl, .corner-br{
+    content:''; position:absolute; width:14px; height:14px; pointer-events:none;
+  }
+  .corner-tl{ top:-1px; left:-1px; border-top:2px solid var(--hv); border-left:2px solid var(--hv); }
+  .corner-br{ bottom:-1px; right:-1px; border-bottom:2px solid var(--hv); border-right:2px solid var(--hv); }
+
+  /* ---------- HERO / TITLE BLOCK ---------- */
+  .hero{ padding-top: clamp(64px, 10vw, 110px); }
+  .hero-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap: 24px; flex-wrap: wrap;
+    margin-bottom: 42px;
+  }
+  .hero-name{
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+  }
+  .hero-role{
+    font-family: var(--body); font-weight: 400; font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--paper-dim); max-width: 46ch; margin-top: 18px;
+  }
+  .hero-status{
+    font-family: var(--mono); font-size: 0.76rem; text-align:right; color: var(--paper-dim);
+    display:flex; flex-direction:column; gap:6px; padding-top: 10px;
+  }
+  .hero-status .pulse{
+    display:inline-flex; align-items:center; gap:8px; justify-content:flex-end; color: var(--hv);
+  }
+  .pulse-dot{
+    width:7px; height:7px; border-radius:50%; background: var(--hv);
+    box-shadow: 0 0 0 0 rgba(255,106,26,0.6);
+    animation: pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(255,106,26,0.5); }
+    70%{ box-shadow: 0 0 0 8px rgba(255,106,26,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(255,106,26,0); }
+  }
+
+  /* title block table, styled like a CAD drawing stamp */
+  .title-block{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--hairline);
+  }
+  .tb-cell{
+    border-right: 1px solid var(--hairline);
+    border-top: 1px solid var(--hairline);
+    padding: 14px 18px;
+  }
+  .tb-cell:nth-child(4n){ border-right: none; }
+  .title-block .tb-cell:nth-child(-n+4){ border-top: none; }
+  .tb-label{
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--steel); margin-bottom: 6px; display:block;
+  }
+  .tb-value{ font-family: var(--mono); font-size: 0.86rem; color: var(--paper); }
+  .tb-value a{ text-decoration: none; border-bottom: 1px dotted var(--paper-dim); }
+  .tb-value a:hover{ color: var(--hv); border-color: var(--hv); }
+
+  @media (max-width: 720px){
+    .title-block{ grid-template-columns: repeat(2, 1fr); }
+    .tb-cell:nth-child(2n){ border-right: none; }
+    .tb-cell:nth-child(4n){ border-right: 1px solid var(--hairline); }
+    .title-block .tb-cell:nth-child(-n+2){ border-top: none; }
+    .hero-status{ text-align:left; align-items:flex-start; }
+    .hero-status .pulse{ justify-content:flex-start; }
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom: 40px; }
+  .sec-head h2{
+    font-family: var(--display); font-weight:600; font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -0.01em;
+  }
+  .sec-head .rule{ flex:1; height:1px; background: var(--hairline); }
+  .sec-head .sec-no{ font-family: var(--mono); font-size: 0.76rem; color: var(--steel); }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); }
+  .edu-cell{ background: var(--ink); padding: 30px clamp(20px,3vw,40px); }
+  .edu-inst{ font-family: var(--display); font-weight:600; font-size: 1.4rem; margin-bottom: 6px; }
+  .edu-degree{ color: var(--paper-dim); margin-bottom: 4px; }
+  .edu-meta{ font-family: var(--mono); font-size: 0.78rem; color: var(--steel); margin-top: 14px; }
+  .edu-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 16px; }
+  .tag{
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.03em; padding: 5px 10px;
+    border: 1px solid var(--hairline); color: var(--paper-dim); text-transform: uppercase;
+  }
+  .gpa-readout{ display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap: 6px; }
+  .gpa-readout .tb-label{ margin-bottom:2px; }
+  .gpa-num{ font-family: var(--mono); font-size: 2.6rem; color: var(--hv); line-height:1; }
+  .gpa-scale{ font-family: var(--mono); font-size: 0.9rem; color: var(--steel); }
+  .gpa-bar{ width:100%; height:6px; background: var(--panel); margin-top:14px; position:relative; overflow:hidden; }
+  .gpa-bar-fill{ position:absolute; inset:0; width:94%; background: var(--hv); }
+
+  @media (max-width: 780px){ .edu-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- EXPERIENCE TIMELINE ---------- */
+  .timeline{ position:relative; padding-left: 28px; border-left: 1px solid var(--hairline); }
+  .t-item{ position:relative; padding-bottom: 52px; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-dot{
+    position:absolute; left:-33px; top:4px; width:11px; height:11px; background: var(--ink);
+    border: 2px solid var(--hv); border-radius:50%;
+  }
+  .t-head{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+  .t-role{ font-family: var(--display); font-weight:600; font-size: 1.2rem; }
+  .t-date{ font-family: var(--mono); font-size: 0.76rem; color: var(--steel); white-space:nowrap; }
+  .t-org{ font-family: var(--mono); font-size:0.8rem; color: var(--hv); margin-bottom: 14px; letter-spacing:0.03em; }
+  .t-list{ list-style:none; display:flex; flex-direction:column; gap:9px; max-width: 68ch; }
+  .t-list li{ position:relative; padding-left: 18px; color: var(--paper-dim); font-size:0.95rem; }
+  .t-list li::before{ content:'—'; position:absolute; left:0; color: var(--steel); }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 980px){ .proj-grid{ grid-template-columns: 1fr; } }
+  .proj-card{ padding: 28px 26px; display:flex; flex-direction:column; gap:14px; transition: border-color .2s; }
+  .proj-card:hover{ border-color: var(--hv-dim); }
+  .proj-index{ font-family: var(--mono); font-size:0.74rem; color: var(--steel); }
+  .proj-title{ font-family: var(--display); font-weight:600; font-size: 1.15rem; line-height:1.25; }
+  .proj-desc{ color: var(--paper-dim); font-size:0.92rem; flex:1; }
+  .proj-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .proj-stat{ font-family: var(--mono); font-size:0.76rem; color: var(--hv); border-top: 1px solid var(--hairline); padding-top:12px; }
+
+  /* ---------- CAD VIEWER ---------- */
+  .cad-panel{ margin-top: 24px; padding: clamp(20px, 3vw, 32px); }
+  .cad-header{ display:flex; justify-content:space-between; align-items:flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; }
+  .cad-title{ font-family: var(--display); font-weight:600; font-size: 1.5rem; margin-top: 6px; }
+  .cad-sub{ color: var(--paper-dim); font-size: 0.88rem; margin-top: 4px; }
+  .cad-controls{ display:flex; gap: 10px; flex-wrap: wrap; }
+  .cad-btn{
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase;
+    background: transparent; color: var(--paper-dim); border: 1px solid var(--hairline);
+    padding: 9px 14px; cursor: pointer; transition: border-color .15s, color .15s;
+  }
+  .cad-btn:hover{ color: var(--paper); border-color: var(--steel); }
+  .cad-btn[aria-pressed="true"]{ color: var(--hv); border-color: var(--hv-dim); }
+  .cad-stage{
+    position: relative; width: 100%; aspect-ratio: 16 / 9; background: radial-gradient(circle at 50% 40%, rgba(255,106,26,0.05), transparent 60%), var(--panel);
+    border: 1px solid var(--hairline); overflow: hidden; touch-action: none;
+  }
+  #cad-canvas{ width:100%; height:100%; display:block; cursor: grab; }
+  #cad-canvas:active{ cursor: grabbing; }
+  .cad-loading{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background: var(--panel); transition: opacity .4s ease; pointer-events:none;
+  }
+  .cad-loading.hidden{ opacity:0; }
+  .cad-hint{ font-family: var(--mono); font-size: 0.7rem; color: var(--steel); margin-top: 12px; letter-spacing: 0.03em; }
+
+  /* ---------- SKILLS / BOM TABLE ---------- */
+  .bom{ width:100%; border-collapse: collapse; }
+  .bom thead th{
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--steel); text-align:left; padding: 12px 16px; border-bottom: 1px solid var(--hairline);
+  }
+  .bom td{ padding: 16px; border-bottom: 1px solid var(--grid-line); font-size: 0.92rem; vertical-align: top; }
+  .bom td.no{ font-family: var(--mono); color: var(--hv); width: 48px; }
+  .bom td.cat{ color: var(--steel); font-family: var(--mono); font-size:0.78rem; white-space:nowrap; }
+  .bom tr:hover td{ background: rgba(255,255,255,0.02); }
+
+  /* ---------- AWARDS ---------- */
+  .awards-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--hairline); border:1px solid var(--hairline); }
+  @media (max-width: 780px){ .awards-grid{ grid-template-columns: 1fr; } }
+  .award-group{ background: var(--ink); padding: 30px clamp(20px,3vw,40px); }
+  .award-group h3{ font-family: var(--display); font-size: 1.1rem; margin-bottom: 4px; }
+  .award-group .t-date{ display:block; margin-bottom: 18px; }
+  .award-row{ display:flex; gap:12px; padding: 12px 0; border-top: 1px solid var(--grid-line); }
+  .award-row:first-of-type{ border-top:none; }
+  .award-mark{ color: var(--hv); font-family: var(--mono); font-size: 0.8rem; padding-top:2px; }
+  .award-text{ color: var(--paper-dim); font-size: 0.92rem; }
+  .award-text strong{ color: var(--paper); font-weight:500; }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{ padding: clamp(60px,9vw,100px) 6vw 50px; border-top: 1px solid var(--hairline); }
+  .foot-inner{ max-width:1180px; margin:0 auto; }
+  .foot-cta{ font-family: var(--display); font-weight:600; font-size: clamp(1.8rem, 4.5vw, 3rem); letter-spacing:-0.01em; max-width: 16ch; margin-bottom: 36px; }
+  .foot-cta span{ color: var(--hv); }
+  .foot-links{ display:flex; flex-wrap:wrap; gap: 14px 40px; }
+  .foot-link{ display:flex; flex-direction:column; gap:6px; text-decoration:none; }
+  .foot-link .tb-label{ margin-bottom:0; }
+  .foot-link .tb-value{ font-size:1rem; }
+  .foot-link:hover .tb-value{ color: var(--hv); }
+  .foot-bottom{ margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--hairline); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family: var(--mono); font-size:0.7rem; color: var(--steel); letter-spacing:0.04em; }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-mark"><span class="dot"></span> S.ASHENDRA / MECH-ENG</div>
+  <div class="nav-links">
+    <a href="#education">Education</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#awards">Awards</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="section-inner">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">Mechanical Design Engineer</div>
+        <h1 class="hero-name">SHENAL<br>ASHENDRA</h1>
+        <p class="hero-role">High-voltage systems packaging and vehicle aerodynamics for NUS Formula SAE. Mechanical Engineering undergraduate specialising in Aeronautics at the National University of Singapore.</p>
+      </div>
+      <div class="hero-status">
+        <span class="pulse"><span class="pulse-dot"></span>OPEN TO INTERNSHIP / GRAD ROLES</span>
+        <span>SINGAPORE</span>
+        <span>NUS &middot; CLASS OF 2027</span>
+      </div>
+    </div>
+
+    <div class="title-block reveal">
+      <div class="tb-cell"><span class="tb-label">Programme</span><span class="tb-value">BEng Mechanical Eng.</span></div>
+      <div class="tb-cell"><span class="tb-label">Specialisation</span><span class="tb-value">Aeronautical Eng.</span></div>
+      <div class="tb-cell"><span class="tb-label">Second Major</span><span class="tb-value">Innovation &amp; Design (iDP)</span></div>
+      <div class="tb-cell"><span class="tb-label">GPA</span><span class="tb-value">4.70 / 5.00</span></div>
+      <div class="tb-cell"><span class="tb-label">Phone</span><span class="tb-value">+65 8678 0014</span></div>
+      <div class="tb-cell"><span class="tb-label">Email</span><span class="tb-value"><a href="mailto:shenal@u.nus.edu">shenal@u.nus.edu</a></span></div>
+      <div class="tb-cell"><span class="tb-label">LinkedIn</span><span class="tb-value"><a href="https://www.linkedin.com/in/shenalashendra/" target="_blank" rel="noopener">/shenalashendra</a></span></div>
+      <div class="tb-cell"><span class="tb-label">Current Role</span><span class="tb-value">Sr. Design Eng., NUS FSAE</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="sec-head"><span class="sec-no">01</span><h2>Education</h2><div class="rule"></div></div>
+    <div class="edu-grid drawing-panel reveal">
+      <span class="corner-tl"></span><span class="corner-br"></span>
+      <div class="edu-cell">
+        <div class="edu-inst">National University of Singapore</div>
+        <div class="edu-degree">Bachelor of Engineering, Mechanical Engineering</div>
+        <div class="edu-degree">Second Major — Innovation &amp; Design Programme (iDP)</div>
+        <div class="edu-degree">Specialisation — Aeronautical Engineering</div>
+        <div class="edu-meta">AUG 2023 — JUN 2027</div>
+        <div class="edu-tags">
+          <span class="tag">Fluid Mechanics</span>
+          <span class="tag">Thermodynamics</span>
+          <span class="tag">Programming Methodology</span>
+        </div>
+      </div>
+      <div class="edu-cell gpa-readout">
+        <span class="tb-label">Cumulative GPA</span>
+        <span class="gpa-num">4.70</span>
+        <span class="gpa-scale">out of 5.00</span>
+        <div class="gpa-bar"><div class="gpa-bar-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="sec-head"><span class="sec-no">02</span><h2>Experience</h2><div class="rule"></div></div>
+    <div class="timeline">
+
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <div class="t-head"><span class="t-role">Senior Mechanical Design Engineer</span><span class="t-date">JUN 2026 — PRESENT</span></div>
+        <div class="t-org">NUS Formula SAE</div>
+        <ul class="t-list">
+          <li>Identified a critical design flaw in the prior season's electrical packaging that caused the vehicle to fail rain testing at competition</li>
+          <li>Proposed and now lead a full redesign of the vehicle's electrical packaging architecture, directing a team of junior mechanical and electrical engineers</li>
+          <li>Architecting a new enclosure and harness layout to eliminate crisscrossing routing and improve waterproofing reliability</li>
+          <li>Researching forged carbon composite enclosures as a next-phase upgrade, targeting &gt;30% weight reduction over aluminium</li>
+        </ul>
+      </div>
+
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <div class="t-head"><span class="t-role">Junior Mechanical Design Engineer</span><span class="t-date">JAN 2025 — JUN 2026</span></div>
+        <div class="t-org">NUS Formula SAE</div>
+        <ul class="t-list">
+          <li>Specialised in packaging of high-voltage electrical components</li>
+          <li>Designed and manufactured waterproof enclosures for critical HV systems</li>
+          <li>Developed thermal management solutions for a DC-DC converter</li>
+          <li>Engineered a rugged, waterproof casing for a new onboard charger</li>
+          <li>Collaborated with electrical and systems teams for seamless vehicle integration</li>
+        </ul>
+      </div>
+
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <div class="t-head"><span class="t-role">Aerodynamics Engineer (Bootcamp)</span><span class="t-date">AUG 2024 — JAN 2025</span></div>
+        <div class="t-org">NUS Formula SAE</div>
+        <ul class="t-list">
+          <li>Optimised rear diffuser geometry to add 40N of downforce</li>
+          <li>Conducted CFD simulations for aerodynamic performance analysis</li>
+          <li>Explored Venturi-channel concepts for flow enhancement</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="sec-head"><span class="sec-no">03</span><h2>Selected Projects</h2><div class="rule"></div></div>
+    <div class="proj-grid">
+
+      <div class="proj-card drawing-panel reveal">
+        <span class="corner-tl"></span><span class="corner-br"></span>
+        <span class="proj-index">PROJ. 01 — HV PACKAGING</span>
+        <div class="proj-title">Electrical Packaging Redesign</div>
+        <div class="proj-desc">Diagnosed the root cause of a rain-test failure at competition and led a ground-up redesign of the vehicle's electrical enclosure and harness architecture to eliminate crisscrossed routing and improve IP-rated waterproofing. Full CAD model below.</div>
+        <div class="proj-tags"><span class="tag">SolidWorks</span><span class="tag">DFM/DFA</span><span class="tag">Team Lead</span></div>
+        <div class="proj-stat">Next phase: forged carbon composite, target &gt;30% weight cut</div>
+      </div>
+
+      <div class="proj-card drawing-panel reveal">
+        <span class="corner-tl"></span><span class="corner-br"></span>
+        <span class="proj-index">PROJ. 02 — THERMAL / HV</span>
+        <div class="proj-title">Waterproof HV Enclosures &amp; Thermal Management</div>
+        <div class="proj-desc">Designed and manufactured waterproof enclosures for critical high-voltage systems, including a rugged casing for the onboard charger, and developed a thermal management solution for the DC-DC converter.</div>
+        <div class="proj-tags"><span class="tag">Fusion 360</span><span class="tag">Thermal Analysis</span><span class="tag">PCB Design</span></div>
+        <div class="proj-stat">Shipped to competition-ready hardware</div>
+      </div>
+
+      <div class="proj-card drawing-panel reveal">
+        <span class="corner-tl"></span><span class="corner-br"></span>
+        <span class="proj-index">PROJ. 03 — AERODYNAMICS</span>
+        <div class="proj-title">Rear Diffuser Aerodynamics</div>
+        <div class="proj-desc">Ran CFD studies on rear diffuser geometry and explored Venturi-channel concepts to improve underbody flow, optimising the final geometry for measurable downforce gains.</div>
+        <div class="proj-tags"><span class="tag">CFD</span><span class="tag">FEA</span><span class="tag">Simulation</span></div>
+        <div class="proj-stat">+40N downforce vs. baseline geometry</div>
+      </div>
+
+    </div>
+
+    <div class="cad-panel drawing-panel reveal">
+      <span class="corner-tl"></span><span class="corner-br"></span>
+      <div class="cad-header">
+        <div>
+          <span class="eyebrow">Model 01 — Interactive</span>
+          <div class="cad-title">Master Panel Assembly</div>
+          <div class="cad-sub">Electrical enclosure assembly, referenced in Project 01</div>
+        </div>
+        <div class="cad-controls">
+          <button type="button" class="cad-btn" id="btn-rotate" aria-pressed="true">Auto-rotate: On</button>
+          <button type="button" class="cad-btn" id="btn-wire" aria-pressed="false">Wireframe: Off</button>
+          <button type="button" class="cad-btn" id="btn-reset">Reset view</button>
+        </div>
+      </div>
+      <div class="cad-stage" id="cad-stage">
+        <canvas id="cad-canvas"></canvas>
+        <div class="cad-loading" id="cad-loading">
+          <span class="eyebrow" id="cad-loading-text">Loading model — 0%</span>
+        </div>
+      </div>
+      <div class="cad-hint">Drag to orbit &middot; scroll or pinch to zoom &middot; right-click drag to pan</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS (BOM style) -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="sec-head"><span class="sec-no">04</span><h2>Technical Skills</h2><div class="rule"></div></div>
+    <table class="bom">
+      <thead>
+        <tr><th>No.</th><th>Description</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="no">01</td><td>SolidWorks</td><td class="cat">CAD</td></tr>
+        <tr><td class="no">02</td><td>Fusion 360</td><td class="cat">CAD</td></tr>
+        <tr><td class="no">03</td><td>Computational Fluid Dynamics (CFD)</td><td class="cat">Simulation</td></tr>
+        <tr><td class="no">04</td><td>Thermal Analysis</td><td class="cat">Simulation</td></tr>
+        <tr><td class="no">05</td><td>Finite Element Analysis (FEA)</td><td class="cat">Simulation</td></tr>
+        <tr><td class="no">06</td><td>PCB Design</td><td class="cat">Electronics</td></tr>
+        <tr><td class="no">07</td><td>Circuit Design</td><td class="cat">Electronics</td></tr>
+        <tr><td class="no">08</td><td>Design for Manufacturing (DFM)</td><td class="cat">Process</td></tr>
+        <tr><td class="no">09</td><td>Design for Assembly (DFA)</td><td class="cat">Process</td></tr>
+        <tr><td class="no">10</td><td>Engineering Documentation</td><td class="cat">Process</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="section-inner">
+    <div class="sec-head"><span class="sec-no">05</span><h2>Awards</h2><div class="rule"></div></div>
+    <div class="awards-grid reveal">
+      <div class="award-group">
+        <h3>NUS University-Level Awards</h3>
+        <span class="t-date">JUN 2025</span>
+        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>ISTP-9 Fluid &amp; Thermo Prize</strong> — best student in Fluid Mechanics and Engineering Thermodynamics</span></div>
+        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Asian Congress of Fluid Mechanics Prize</strong> — highest marks in Fluid Mechanics</span></div>
+        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Outstanding Performance</strong> — Programming Methodology</span></div>
+      </div>
+      <div class="award-group">
+        <h3>Cambridge A-Level</h3>
+        <span class="t-date">AUG 2022</span>
+        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Best Across 4 Subjects</strong> — ranked #1 in Sri Lanka</span></div>
+        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Top Chemistry Score in Sri Lanka</strong> — highest national mark</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<footer id="contact">
+  <div class="foot-inner">
+    <div class="eyebrow" style="margin-bottom:18px;">06 — Contact</div>
+    <div class="foot-cta">Open to internship and graduate <span>mechanical engineering</span> roles.</div>
+    <div class="foot-links">
+      <a class="foot-link" href="mailto:shenal@u.nus.edu"><span class="tb-label">Email</span><span class="tb-value">shenal@u.nus.edu</span></a>
+      <a class="foot-link" href="tel:+6586780014"><span class="tb-label">Phone</span><span class="tb-value">+65 8678 0014</span></a>
+      <a class="foot-link" href="https://www.linkedin.com/in/shenalashendra/" target="_blank" rel="noopener"><span class="tb-label">LinkedIn</span><span class="tb-value">/in/shenalashendra</span></a>
+    </div>
+    <div class="foot-bottom">
+      <span>SHEET 01/01 — REV A — SINGAPORE</span>
+      <span id="year-stamp"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year-stamp').textContent = 'UPDATED ' + new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }).toUpperCase();
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+</script>
+
+<!-- Three.js CAD viewer -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+(function(){
+  const stage = document.getElementById('cad-stage');
+  const canvas = document.getElementById('cad-canvas');
+  const loadingEl = document.getElementById('cad-loading');
+  const loadingText = document.getElementById('cad-loading-text');
+  const btnRotate = document.getElementById('btn-rotate');
+  const btnWire = document.getElementById('btn-wire');
+  const btnReset = document.getElementById('btn-reset');
+
+  if (!window.THREE || !canvas){ return; }
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.01, 5000);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(stage.clientWidth, stage.clientHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  // Lighting — neutral studio setup
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const keyLight = new THREE.DirectionalLight(0xfff2e6, 1.1);
+  keyLight.position.set(4, 6, 5);
+  scene.add(keyLight);
+  const fillLight = new THREE.DirectionalLight(0x8ecdf0, 0.4);
+  fillLight.position.set(-5, -2, -4);
+  scene.add(fillLight);
+  const rimLight = new THREE.DirectionalLight(0xff6a1a, 0.5);
+  rimLight.position.set(-3, 4, -6);
+  scene.add(rimLight);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.autoRotate = !prefersReduced;
+  controls.autoRotateSpeed = 1.4;
+  controls.minDistance = 0.01;
+  controls.maxDistance = 5000;
+
+  let modelRoot = null;
+  let defaultCamPos = null;
+  let defaultTarget = null;
+  let wireframeOn = false;
+
+  function frameObject(object){
+    const box = new THREE.Box3().setFromObject(object);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+
+    object.position.sub(center);
+
+    const fitDist = (maxDim / 2) / Math.tan((camera.fov * Math.PI / 180) / 2) * 1.6;
+    camera.position.set(fitDist * 0.6, fitDist * 0.45, fitDist * 0.8);
+    camera.near = maxDim / 1000;
+    camera.far = maxDim * 100;
+    camera.updateProjectionMatrix();
+
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    defaultCamPos = camera.position.clone();
+    defaultTarget = controls.target.clone();
+  }
+
+  const loader = new THREE.GLTFLoader();
+  loader.load(
+    'model.glb',
+    (gltf) => {
+      modelRoot = gltf.scene;
+      modelRoot.traverse((child) => {
+        if (child.isMesh && child.material){
+          const mats = Array.isArray(child.material) ? child.material : [child.material];
+          mats.forEach(m => { if ('metalness' in m) m.envMapIntensity = 1; });
+        }
+      });
+      scene.add(modelRoot);
+      frameObject(modelRoot);
+      loadingEl.classList.add('hidden');
+      setTimeout(() => { loadingEl.style.display = 'none'; }, 450);
+    },
+    (xhr) => {
+      if (xhr.total){
+        const pct = Math.min(100, Math.round((xhr.loaded / xhr.total) * 100));
+        loadingText.textContent = 'Loading model — ' + pct + '%';
+      }
+    },
+    (err) => {
+      loadingText.textContent = 'Model failed to load';
+      console.error('GLTF load error', err);
+    }
+  );
+
+  function setWireframe(on){
+    wireframeOn = on;
+    if (modelRoot){
+      modelRoot.traverse((child) => {
+        if (child.isMesh && child.material){
+          const mats = Array.isArray(child.material) ? child.material : [child.material];
+          mats.forEach(m => { m.wireframe = on; });
+        }
+      });
+    }
+    btnWire.setAttribute('aria-pressed', String(on));
+    btnWire.textContent = 'Wireframe: ' + (on ? 'On' : 'Off');
+  }
+
+  btnRotate.addEventListener('click', () => {
+    controls.autoRotate = !controls.autoRotate;
+    btnRotate.setAttribute('aria-pressed', String(controls.autoRotate));
+    btnRotate.textContent = 'Auto-rotate: ' + (controls.autoRotate ? 'On' : 'Off');
+  });
+
+  btnWire.addEventListener('click', () => setWireframe(!wireframeOn));
+
+  btnReset.addEventListener('click', () => {
+    if (!defaultCamPos) return;
+    camera.position.copy(defaultCamPos);
+    controls.target.copy(defaultTarget);
+    controls.update();
+  });
+
+  function resize(){
+    const w = stage.clientWidth, h = stage.clientHeight;
+    if (w === 0 || h === 0) return;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener('resize', resize);
+
+  function animate(){
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+
+</body>
+</html>
