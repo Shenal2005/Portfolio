@@ -32,15 +32,57 @@
     color: var(--paper);
     font-family: var(--body);
     line-height: 1.5;
-    background-image:
-      linear-gradient(var(--grid-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 48px 48px;
+  }
+
+  #grid-bg{
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    display: block;
   }
 
   a{ color: inherit; }
 
   ::selection{ background: var(--hv); color: var(--ink); }
+
+  /* ---------- CUSTOM CURSOR ---------- */
+  @media (pointer: fine){
+    body, a, button, .cad-btn, #cad-canvas{ cursor: none; }
+  }
+  #cad-canvas:active{ cursor: none; }
+
+  #cursor-dot, #cursor-ring{
+    position: fixed; top:0; left:0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity .25s ease, width .2s ease, height .2s ease, border-color .2s ease;
+  }
+  #cursor-dot{
+    width: 6px; height: 6px;
+    background: var(--hv);
+  }
+  #cursor-ring{
+    width: 30px; height: 30px;
+    border: 1px solid var(--hv);
+  }
+  body.cursor-active #cursor-dot,
+  body.cursor-active #cursor-ring{ opacity: 1; }
+  body.cursor-hover #cursor-ring{
+    width: 50px; height: 50px;
+    border-color: var(--paper);
+    opacity: 0.85;
+  }
+  body.cursor-hover #cursor-dot{ opacity: 0; }
+
+  @media (pointer: coarse){
+    #cursor-dot, #cursor-ring{ display: none; }
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -192,6 +234,47 @@
 
   @media (max-width: 780px){ .edu-grid{ grid-template-columns: 1fr; } }
 
+  /* ---------- MODULE RECORD DROPDOWN ---------- */
+  .module-record{ margin-top: 1px; }
+  .module-record summary{
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px clamp(20px,3vw,40px);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper-dim);
+    background: var(--ink);
+    transition: color .15s;
+  }
+  .module-record summary::-webkit-details-marker{ display:none; }
+  .module-record summary:hover{ color: var(--paper); }
+  .module-record summary .arrow{
+    display:inline-block;
+    transition: transform .25s ease;
+    color: var(--hv);
+    font-size: 0.7rem;
+  }
+  .module-record[open] summary .arrow{ transform: rotate(180deg); }
+  .module-record .module-count{ color: var(--hv); margin-left: 8px; }
+
+  .module-table-wrap{ padding: 0 clamp(20px,3vw,40px) 26px; }
+  .module-table{ width:100%; border-collapse: collapse; }
+  .module-table thead th{
+    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--steel); text-align:left; padding: 10px 12px; border-bottom: 1px solid var(--hairline);
+  }
+  .module-table td{ padding: 11px 12px; border-bottom: 1px solid var(--grid-line); font-size: 0.86rem; }
+  .module-table td.code{ font-family: var(--mono); color: var(--steel); white-space: nowrap; }
+  .module-table td.grade{ font-family: var(--mono); color: var(--hv); text-align: right; white-space: nowrap; }
+  .module-table tr:hover td{ background: rgba(255,255,255,0.02); }
+  .module-note{ font-family: var(--mono); font-size: 0.68rem; color: var(--steel); padding-top: 16px; letter-spacing: 0.02em; }
+
   /* ---------- EXPERIENCE TIMELINE ---------- */
   .timeline{ position:relative; padding-left: 28px; border-left: 1px solid var(--hairline); }
   .t-item{ position:relative; padding-bottom: 52px; }
@@ -286,6 +369,9 @@
 </style>
 </head>
 <body>
+<canvas id="grid-bg"></canvas>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <nav>
   <div class="nav-mark"><span class="dot"></span> S.ASHENDRA / MECH-ENG</div>
@@ -353,6 +439,45 @@
         <div class="gpa-bar"><div class="gpa-bar-fill"></div></div>
       </div>
     </div>
+
+    <details class="module-record drawing-panel reveal">
+      <span class="corner-tl"></span><span class="corner-br"></span>
+      <summary>
+        <span>Module Record — Grade A- and above<span class="module-count">(21)</span></span>
+        <span class="arrow">&#9660;</span>
+      </summary>
+      <div class="module-table-wrap">
+        <table class="module-table">
+          <thead>
+            <tr><th>Code</th><th>Module</th><th style="text-align:right;">Grade</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="code">CS1010E</td><td>Programming Methodology</td><td class="grade">A+</td></tr>
+            <tr><td class="code">EG1311</td><td>Design and Make</td><td class="grade">A</td></tr>
+            <tr><td class="code">MA1505</td><td>Mathematics I</td><td class="grade">A</td></tr>
+            <tr><td class="code">ME1102</td><td>Engineering Principles and Practice I</td><td class="grade">A</td></tr>
+            <tr><td class="code">GEA1000</td><td>Quantitative Reasoning with Data</td><td class="grade">A-</td></tr>
+            <tr><td class="code">MA1512</td><td>Differential Equations for Engineering</td><td class="grade">A+</td></tr>
+            <tr><td class="code">MA1513</td><td>Linear Algebra with Differential Equations</td><td class="grade">A+</td></tr>
+            <tr><td class="code">ME2104</td><td>Engineering Principles and Practice II</td><td class="grade">A+</td></tr>
+            <tr><td class="code">ME2112</td><td>Strength of Materials</td><td class="grade">A+</td></tr>
+            <tr><td class="code">ME2134</td><td>Fluid Mechanics I</td><td class="grade">A+</td></tr>
+            <tr><td class="code">EE2211</td><td>Introduction to Machine Learning</td><td class="grade">A</td></tr>
+            <tr><td class="code">ME2121</td><td>Engineering Thermodynamics and Heat Transfer</td><td class="grade">A+</td></tr>
+            <tr><td class="code">ME2162</td><td>Manufacturing Processes</td><td class="grade">A</td></tr>
+            <tr><td class="code">CDE2300</td><td>Product Design and Innovation</td><td class="grade">A-</td></tr>
+            <tr><td class="code">GEN2001</td><td>Theatre and Community Engagement</td><td class="grade">A-</td></tr>
+            <tr><td class="code">ME2102</td><td>Engineering Innovation and Modelling</td><td class="grade">A+</td></tr>
+            <tr><td class="code">ME3115</td><td>Mechanics of Machines</td><td class="grade">A</td></tr>
+            <tr><td class="code">ME3142</td><td>Feedback Control Systems</td><td class="grade">A+</td></tr>
+            <tr><td class="code">EG2401A</td><td>Engineering Professionalism</td><td class="grade">A-</td></tr>
+            <tr><td class="code">ME2135</td><td>Intermediate Fluid Mechanics</td><td class="grade">A-</td></tr>
+            <tr><td class="code">ME4231</td><td>Aerodynamics</td><td class="grade">A-</td></tr>
+          </tbody>
+        </table>
+        <div class="module-note">Showing modules graded A- and above. Full transcript available on request.</div>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -536,7 +661,236 @@
   reveals.forEach(el => io.observe(el));
 </script>
 
-<!-- Three.js CAD viewer -->
+<!-- Warping cursor-reactive grid background -->
+<script>
+(function(){
+  const canvas = document.getElementById('grid-bg');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const styles = getComputedStyle(document.documentElement);
+  const lineColor = styles.getPropertyValue('--grid-line').trim() || 'rgba(241,238,231,0.07)';
+  const accentColor = (styles.getPropertyValue('--hv').trim() || '#FF6A1A');
+
+  function hexToRgb(hex){
+    hex = hex.replace('#','');
+    if (hex.length === 3) hex = hex.split('').map(c => c+c).join('');
+    const num = parseInt(hex, 16);
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  }
+  const accentRgb = accentColor.startsWith('#') ? hexToRgb(accentColor) : { r: 255, g: 106, b: 26 };
+
+  const baseMatch = lineColor.match(/rgba?\(([^)]+)\)/);
+  const baseParts = baseMatch ? baseMatch[1].split(',').map(s => parseFloat(s)) : [241,238,231,0.07];
+  const baseRgb = { r: baseParts[0], g: baseParts[1], b: baseParts[2] };
+  const baseAlpha = baseParts[3] !== undefined ? baseParts[3] : 0.07;
+
+  const SPACING = 48;
+  const SAMPLE = 10;
+  const RADIUS = 190;
+  const STRENGTH = 34;
+
+  let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+  let mouseX = -9999, mouseY = -9999;
+  let targetX = -9999, targetY = -9999;
+  let active = false;
+
+  function resize(){
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  window.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    active = true;
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', () => { active = false; });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]){
+      targetX = e.touches[0].clientX;
+      targetY = e.touches[0].clientY;
+      active = true;
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => { active = false; });
+
+  function smoothstep(t){ return t * t * (3 - 2 * t); }
+
+  function warp(px, py){
+    const dx = px - mouseX;
+    const dy = py - mouseY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist > RADIUS || dist < 0.001) return [px, py, 0];
+    const t = smoothstep(1 - (dist / RADIUS));
+    const force = t * STRENGTH;
+    const nx = dx / dist, ny = dy / dist;
+    return [px + nx * force, py + ny * force, t];
+  }
+
+  function strokeColor(t){
+    const r = baseRgb.r + (accentRgb.r - baseRgb.r) * t;
+    const g = baseRgb.g + (accentRgb.g - baseRgb.g) * t;
+    const b = baseRgb.b + (accentRgb.b - baseRgb.b) * t;
+    const a = baseAlpha + (0.5 - baseAlpha) * t;
+    return `rgba(${r|0},${g|0},${b|0},${a.toFixed(3)})`;
+  }
+
+  // Buckets t into coarse steps so long unaffected stretches of grid
+  // collapse into a single stroke() call instead of one per sample point.
+  const BUCKETS = 14;
+  function bucketOf(t){ return Math.round(t * BUCKETS); }
+
+  function strokePolyline(points){
+    if (points.length < 2) return;
+    let currentBucket = bucketOf(points[0][2]);
+    ctx.beginPath();
+    ctx.moveTo(points[0][0], points[0][1]);
+    for (let i = 1; i < points.length; i++){
+      const [x, y, t] = points[i];
+      const bucket = bucketOf(t);
+      if (bucket !== currentBucket){
+        ctx.strokeStyle = strokeColor(currentBucket / BUCKETS);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(points[i-1][0], points[i-1][1]);
+        currentBucket = bucket;
+      }
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = strokeColor(currentBucket / BUCKETS);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  function drawGrid(){
+    ctx.clearRect(0, 0, W, H);
+
+    const cols = Math.ceil(W / SPACING) + 2;
+    const rows = Math.ceil(H / SPACING) + 2;
+
+    // vertical lines
+    for (let c = -1; c <= cols; c++){
+      const x = c * SPACING;
+      const pts = [];
+      for (let y = -SAMPLE; y <= H + SAMPLE; y += SAMPLE){
+        pts.push(warp(x, y));
+      }
+      strokePolyline(pts);
+    }
+
+    // horizontal lines
+    for (let r = -1; r <= rows; r++){
+      const y = r * SPACING;
+      const pts = [];
+      for (let x = -SAMPLE; x <= W + SAMPLE; x += SAMPLE){
+        pts.push(warp(x, y));
+      }
+      strokePolyline(pts);
+    }
+  }
+
+  function drawStaticGrid(){
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 1;
+    const cols = Math.ceil(W / SPACING) + 1;
+    const rows = Math.ceil(H / SPACING) + 1;
+    ctx.beginPath();
+    for (let c = 0; c <= cols; c++){
+      const x = c * SPACING;
+      ctx.moveTo(x, 0); ctx.lineTo(x, H);
+    }
+    for (let r = 0; r <= rows; r++){
+      const y = r * SPACING;
+      ctx.moveTo(0, y); ctx.lineTo(W, y);
+    }
+    ctx.stroke();
+  }
+
+  if (prefersReduced){
+    drawStaticGrid();
+    return;
+  }
+
+  function animate(){
+    mouseX += (targetX - mouseX) * 0.15;
+    mouseY += (targetY - mouseY) * 0.15;
+    drawGrid();
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+
+<!-- Custom trailing cursor -->
+<script>
+(function(){
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lerpFactor = prefersReduced ? 1 : 0.2;
+
+  let px = window.innerWidth / 2, py = window.innerHeight / 2;
+  let rx = px, ry = py;
+  let started = false;
+
+  window.addEventListener('mousemove', (e) => {
+    px = e.clientX;
+    py = e.clientY;
+    if (!started){
+      started = true;
+      rx = px; ry = py;
+      document.body.classList.add('cursor-active');
+    }
+    dot.style.left = px + 'px';
+    dot.style.top = py + 'px';
+  }, { passive: true });
+
+  window.addEventListener('mousedown', () => {
+    ring.style.width = '22px';
+    ring.style.height = '22px';
+  });
+  window.addEventListener('mouseup', () => {
+    if (!document.body.classList.contains('cursor-hover')){
+      ring.style.width = '';
+      ring.style.height = '';
+    }
+  });
+
+  const hoverTargets = 'a, button, .cad-btn, input, select, textarea';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(hoverTargets)) document.body.classList.add('cursor-hover');
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(hoverTargets)) document.body.classList.remove('cursor-hover');
+  });
+
+  function loop(){
+    rx += (px - rx) * lerpFactor;
+    ry += (py - ry) * lerpFactor;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
