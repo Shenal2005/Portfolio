@@ -375,6 +375,38 @@
   .award-group .t-date{ display:block; margin-bottom: 18px; }
   .award-row{ display:flex; gap:12px; padding: 12px 0; border-top: 1px solid var(--grid-line); }
   .award-row:first-of-type{ border-top:none; }
+
+  /* Award rows that have an expandable certificate */
+  details.award-row{ display:block; padding: 0; }
+  details.award-row summary{
+    display:flex; align-items:flex-start; gap:12px;
+    padding: 12px 0; cursor:pointer; list-style:none;
+  }
+  details.award-row summary::-webkit-details-marker{ display:none; }
+  .cert-toggle{
+    margin-left: auto;
+    display:flex; align-items:center; gap:6px;
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--steel); white-space: nowrap; padding-top: 2px;
+    transition: color .15s;
+  }
+  details.award-row summary:hover .cert-toggle{ color: var(--paper); }
+  .cert-toggle .arrow{ display:inline-block; color: var(--hv); transition: transform .25s ease; font-size:0.62rem; }
+  details.award-row[open] .cert-toggle .arrow{ transform: rotate(180deg); }
+
+  .cert-wrap{
+    padding: 4px 0 18px 30px;
+  }
+  .cert-frame{
+    position: relative;
+    border: 1px solid var(--hairline);
+    background: var(--panel);
+    padding: 8px;
+    max-width: 340px;
+  }
+  .cert-frame img{
+    display:block; width: 100%; height: auto;
+  }
   .award-mark{ color: var(--hv); font-family: var(--mono); font-size: 0.8rem; padding-top:2px; }
   .award-text{ color: var(--paper-dim); font-size: 0.92rem; }
   .award-text strong{ color: var(--paper); font-weight:500; }
@@ -392,7 +424,21 @@
   .foot-bottom{ margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--hairline); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family: var(--mono); font-size:0.7rem; color: var(--steel); letter-spacing:0.04em; }
 
   /* reveal on scroll */
-  .reveal{ opacity:0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal{
+    opacity: 0;
+    transform: translateY(34px) scale(0.97);
+    filter: blur(6px);
+    transition:
+      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform, filter;
+  }
+  .reveal.in{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
   .reveal.in{ opacity:1; transform: translateY(0); }
 </style>
 </head>
@@ -419,17 +465,17 @@
     <div class="hero-top">
       <div>
         <div class="eyebrow">Mechanical Design Engineer</div>
-        <h1 class="hero-name">SHENAL<br>ASHENDRA</h1>
-        <p class="hero-role">High-voltage systems packaging and vehicle aerodynamics for NUS Formula SAE. Mechanical Engineering undergraduate specialising in Aeronautics at the National University of Singapore.</p>
+        <h1 class="hero-name reveal" style="transition-delay:0ms;">SHENAL<br>ASHENDRA</h1>
+        <p class="hero-role reveal" style="transition-delay:140ms;">High-voltage systems packaging and vehicle aerodynamics for NUS Formula SAE. Mechanical Engineering undergraduate specialising in Aeronautics at the National University of Singapore.</p>
       </div>
-      <div class="hero-status">
+      <div class="hero-status reveal" style="transition-delay:280ms;">
         <span class="pulse"><span class="pulse-dot"></span>OPEN TO INTERNSHIP / GRAD ROLES</span>
         <span>SINGAPORE</span>
         <span>NUS &middot; CLASS OF 2027</span>
       </div>
     </div>
 
-    <div class="title-block reveal">
+    <div class="title-block reveal" style="transition-delay:400ms;">
       <div class="tb-cell"><span class="tb-label">Programme</span><span class="tb-value">BEng Mechanical Eng.</span></div>
       <div class="tb-cell"><span class="tb-label">Specialisation</span><span class="tb-value">Aeronautical Eng.</span></div>
       <div class="tb-cell"><span class="tb-label">Second Major</span><span class="tb-value">Innovation &amp; Design (iDP)</span></div>
@@ -445,7 +491,7 @@
 <!-- EDUCATION -->
 <section id="education">
   <div class="section-inner">
-    <div class="sec-head"><span class="sec-no">01</span><h2>Education</h2><div class="rule"></div></div>
+    <div class="sec-head reveal"><span class="sec-no">01</span><h2>Education</h2><div class="rule"></div></div>
     <div class="edu-grid drawing-panel reveal">
       <span class="corner-tl"></span><span class="corner-br"></span>
       <div class="edu-cell">
@@ -512,10 +558,10 @@
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-inner">
-    <div class="sec-head"><span class="sec-no">02</span><h2>Experience</h2><div class="rule"></div></div>
+    <div class="sec-head reveal"><span class="sec-no">02</span><h2>Experience</h2><div class="rule"></div></div>
     <div class="timeline">
 
-      <div class="t-item reveal">
+      <div class="t-item reveal" style="transition-delay:0ms;">
         <span class="t-dot"></span>
         <div class="t-head"><span class="t-role">Senior Mechanical Design Engineer</span><span class="t-date">JUN 2026 — PRESENT</span></div>
         <div class="t-org">NUS Formula SAE</div>
@@ -527,7 +573,7 @@
         </ul>
       </div>
 
-      <div class="t-item reveal">
+      <div class="t-item reveal" style="transition-delay:140ms;">
         <span class="t-dot"></span>
         <div class="t-head"><span class="t-role">Junior Mechanical Design Engineer</span><span class="t-date">JAN 2025 — JUN 2026</span></div>
         <div class="t-org">NUS Formula SAE</div>
@@ -540,7 +586,7 @@
         </ul>
       </div>
 
-      <div class="t-item reveal">
+      <div class="t-item reveal" style="transition-delay:280ms;">
         <span class="t-dot"></span>
         <div class="t-head"><span class="t-role">Aerodynamics Engineer (Bootcamp)</span><span class="t-date">AUG 2024 — JAN 2025</span></div>
         <div class="t-org">NUS Formula SAE</div>
@@ -558,10 +604,10 @@
 <!-- PROJECTS -->
 <section id="projects">
   <div class="section-inner">
-    <div class="sec-head"><span class="sec-no">03</span><h2>Selected Projects</h2><div class="rule"></div></div>
+    <div class="sec-head reveal"><span class="sec-no">03</span><h2>Selected Projects</h2><div class="rule"></div></div>
     <div class="proj-grid">
 
-      <div class="proj-card drawing-panel reveal">
+      <div class="proj-card drawing-panel reveal" style="transition-delay:0ms;">
         <span class="corner-tl"></span><span class="corner-br"></span>
         <span class="proj-index">PROJ. 01 — HV PACKAGING</span>
         <div class="proj-title">Electrical Packaging Redesign</div>
@@ -570,7 +616,7 @@
         <div class="proj-stat">Next phase: forged carbon composite, target &gt;30% weight cut</div>
       </div>
 
-      <div class="proj-card drawing-panel reveal">
+      <div class="proj-card drawing-panel reveal" style="transition-delay:140ms;">
         <span class="corner-tl"></span><span class="corner-br"></span>
         <span class="proj-index">PROJ. 02 — THERMAL / HV</span>
         <div class="proj-title">Waterproof HV Enclosures &amp; Thermal Management</div>
@@ -579,7 +625,7 @@
         <div class="proj-stat">Shipped to competition-ready hardware</div>
       </div>
 
-      <div class="proj-card drawing-panel reveal">
+      <div class="proj-card drawing-panel reveal" style="transition-delay:280ms;">
         <span class="corner-tl"></span><span class="corner-br"></span>
         <span class="proj-index">PROJ. 03 — AERODYNAMICS</span>
         <div class="proj-title">Rear Diffuser Aerodynamics</div>
@@ -619,7 +665,7 @@
 <!-- SKILLS (BOM style) -->
 <section id="skills">
   <div class="section-inner">
-    <div class="sec-head"><span class="sec-no">04</span><h2>Technical Skills</h2><div class="rule"></div></div>
+    <div class="sec-head reveal"><span class="sec-no">04</span><h2>Technical Skills</h2><div class="rule"></div></div>
     <table class="bom">
       <thead>
         <tr><th>No.</th><th>Description</th><th>Category</th></tr>
@@ -643,16 +689,52 @@
 <!-- AWARDS -->
 <section id="awards">
   <div class="section-inner">
-    <div class="sec-head"><span class="sec-no">05</span><h2>Awards</h2><div class="rule"></div></div>
-    <div class="awards-grid reveal">
-      <div class="award-group">
+    <div class="sec-head reveal"><span class="sec-no">05</span><h2>Awards</h2><div class="rule"></div></div>
+    <div class="awards-grid">
+      <div class="award-group reveal" style="transition-delay:0ms;">
         <h3>NUS University-Level Awards</h3>
         <span class="t-date">JUN 2025</span>
-        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>ISTP-9 Fluid &amp; Thermo Prize</strong> — best student in Fluid Mechanics and Engineering Thermodynamics</span></div>
-        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Asian Congress of Fluid Mechanics Prize</strong> — highest marks in Fluid Mechanics</span></div>
-        <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Outstanding Performance</strong> — Programming Methodology</span></div>
+        <details class="award-row cert-row">
+          <summary>
+            <span class="award-mark">&#9670;</span>
+            <span class="award-text"><strong>ISTP-9 Fluid &amp; Thermo Prize</strong> — best student in Fluid Mechanics and Engineering Thermodynamics</span>
+            <span class="cert-toggle">Certificate <span class="arrow">&#9660;</span></span>
+          </summary>
+          <div class="cert-wrap">
+            <div class="cert-frame">
+              <span class="corner-tl"></span><span class="corner-br"></span>
+              <img src="certs/cert-fluid-thermo.png" alt="ISTP-9 Fluid and Thermo Prize certificate" loading="lazy">
+            </div>
+          </div>
+        </details>
+        <details class="award-row cert-row">
+          <summary>
+            <span class="award-mark">&#9670;</span>
+            <span class="award-text"><strong>Asian Congress of Fluid Mechanics Prize</strong> — highest marks in Fluid Mechanics</span>
+            <span class="cert-toggle">Certificate <span class="arrow">&#9660;</span></span>
+          </summary>
+          <div class="cert-wrap">
+            <div class="cert-frame">
+              <span class="corner-tl"></span><span class="corner-br"></span>
+              <img src="certs/cert-fluid-mechanics.png" alt="Asian Congress of Fluid Mechanics Prize certificate" loading="lazy">
+            </div>
+          </div>
+        </details>
+        <details class="award-row cert-row">
+          <summary>
+            <span class="award-mark">&#9670;</span>
+            <span class="award-text"><strong>Outstanding Performance</strong> — Programming Methodology</span>
+            <span class="cert-toggle">Certificate <span class="arrow">&#9660;</span></span>
+          </summary>
+          <div class="cert-wrap">
+            <div class="cert-frame">
+              <span class="corner-tl"></span><span class="corner-br"></span>
+              <img src="certs/cert-programming.png" alt="Outstanding Performance in Programming Methodology certificate" loading="lazy">
+            </div>
+          </div>
+        </details>
       </div>
-      <div class="award-group">
+      <div class="award-group reveal" style="transition-delay:160ms;">
         <h3>Cambridge A-Level</h3>
         <span class="t-date">AUG 2022</span>
         <div class="award-row"><span class="award-mark">&#9670;</span><span class="award-text"><strong>Best Across 4 Subjects</strong> — ranked #1 in Sri Lanka</span></div>
@@ -666,8 +748,8 @@
 <footer id="contact">
   <div class="foot-inner">
     <div class="eyebrow" style="margin-bottom:18px;">06 — Contact</div>
-    <div class="foot-cta">Open to internship and graduate <span>mechanical engineering</span> roles.</div>
-    <div class="foot-links">
+    <div class="foot-cta reveal" style="transition-delay:0ms;">Open to internship and graduate <span>mechanical engineering</span> roles.</div>
+    <div class="foot-links reveal" style="transition-delay:160ms;">
       <a class="foot-link" href="mailto:shenal@u.nus.edu"><span class="tb-label">Email</span><span class="tb-value">shenal@u.nus.edu</span></a>
       <a class="foot-link" href="tel:+6586780014"><span class="tb-label">Phone</span><span class="tb-value">+65 8678 0014</span></a>
       <a class="foot-link" href="https://www.linkedin.com/in/shenalashendra/" target="_blank" rel="noopener"><span class="tb-label">LinkedIn</span><span class="tb-value">/in/shenalashendra</span></a>
