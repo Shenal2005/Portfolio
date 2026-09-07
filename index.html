@@ -153,6 +153,36 @@
   }
 
   section{ padding: clamp(60px, 9vw, 120px) 6vw; position: relative; }
+
+  /* ---------- EXPERIENCE PHOTO ---------- */
+  #experience{ overflow: hidden; }
+  .exp-photo{
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: min(64vw, 900px);
+    pointer-events: none;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .exp-photo img{
+    width: 100%;
+    height: auto;
+    opacity: 0.4;
+    -webkit-mask-image: linear-gradient(to left, black 30%, transparent 92%),
+                         linear-gradient(to top, black 60%, transparent 100%),
+                         linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in, source-in;
+    mask-image: linear-gradient(to left, black 30%, transparent 92%),
+                linear-gradient(to top, black 60%, transparent 100%),
+                linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-composite: intersect, intersect;
+  }
+  #experience .section-inner{ position: relative; z-index: 1; }
+  @media (max-width: 900px){
+    .exp-photo{ display: none; }
+  }
   .section-inner{ max-width: 1180px; margin: 0 auto; }
 
   /* corner bracket panel treatment */
@@ -557,6 +587,9 @@
 
 <!-- EXPERIENCE -->
 <section id="experience">
+  <div class="exp-photo" aria-hidden="true">
+    <img src="assets/fsae-car.webp" alt="" loading="lazy">
+  </div>
   <div class="section-inner">
     <div class="sec-head reveal"><span class="sec-no">02</span><h2>Experience</h2><div class="rule"></div></div>
     <div class="timeline">
