@@ -78,9 +78,8 @@
 
   /* ---------- CUSTOM CURSOR ---------- */
   @media (pointer: fine){
-    body, a, button, .cad-btn, #cad-canvas{ cursor: none; }
+    body, a, button{ cursor: none; }
   }
-  #cad-canvas:active{ cursor: none; }
 
   #cursor-dot, #cursor-ring{
     position: fixed; top:0; left:0;
@@ -169,9 +168,9 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    opacity: 0.4;
-    -webkit-mask-image: linear-gradient(to left, black 35%, transparent 95%);
-    mask-image: linear-gradient(to left, black 35%, transparent 95%);
+    opacity: 0.72;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   .hero-top,
   .title-block{
@@ -186,7 +185,7 @@
       width: min(75vw, 480px);
       margin: 28px 0 0 auto;
     }
-    .hero-photo img{ opacity: 0.3; }
+    .hero-photo img{ opacity: 0.55; }
   }
   .section-inner{ max-width: 1180px; margin: 0 auto; }
 
@@ -364,32 +363,6 @@
   .proj-desc{ color: var(--paper-dim); font-size:0.92rem; flex:1; }
   .proj-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
   .proj-stat{ font-family: var(--mono); font-size:0.76rem; color: var(--hv); border-top: 1px solid var(--hairline); padding-top:12px; }
-
-  /* ---------- CAD VIEWER ---------- */
-  .cad-panel{ margin-top: 24px; padding: clamp(20px, 3vw, 32px); }
-  .cad-header{ display:flex; justify-content:space-between; align-items:flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; }
-  .cad-title{ font-family: var(--display); font-weight:600; font-size: 1.5rem; margin-top: 6px; }
-  .cad-sub{ color: var(--paper-dim); font-size: 0.88rem; margin-top: 4px; }
-  .cad-controls{ display:flex; gap: 10px; flex-wrap: wrap; }
-  .cad-btn{
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase;
-    background: transparent; color: var(--paper-dim); border: 1px solid var(--hairline);
-    padding: 9px 14px; cursor: pointer; transition: border-color .15s, color .15s;
-  }
-  .cad-btn:hover{ color: var(--paper); border-color: var(--steel); }
-  .cad-btn[aria-pressed="true"]{ color: var(--hv); border-color: var(--hv-dim); }
-  .cad-stage{
-    position: relative; width: 100%; aspect-ratio: 16 / 9; background: radial-gradient(circle at 50% 40%, rgba(255,106,26,0.05), transparent 60%), var(--panel);
-    border: 1px solid var(--hairline); overflow: hidden; touch-action: none;
-  }
-  #cad-canvas{ width:100%; height:100%; display:block; cursor: grab; }
-  #cad-canvas:active{ cursor: grabbing; }
-  .cad-loading{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    background: var(--panel); transition: opacity .4s ease; pointer-events:none;
-  }
-  .cad-loading.hidden{ opacity:0; }
-  .cad-hint{ font-family: var(--mono); font-size: 0.7rem; color: var(--steel); margin-top: 12px; letter-spacing: 0.03em; }
 
   /* ---------- SKILLS / BOM TABLE ---------- */
   .bom{ width:100%; border-collapse: collapse; }
@@ -675,28 +648,7 @@
 
     </div>
 
-    <div class="cad-panel drawing-panel reveal">
-      <span class="corner-tl"></span><span class="corner-br"></span>
-      <div class="cad-header">
-        <div>
-          <span class="eyebrow">Model 01 — Interactive</span>
-          <div class="cad-title">Master Panel Assembly</div>
-          <div class="cad-sub">Electrical enclosure assembly, referenced in Project 01</div>
-        </div>
-        <div class="cad-controls">
-          <button type="button" class="cad-btn" id="btn-rotate" aria-pressed="true">Auto-rotate: On</button>
-          <button type="button" class="cad-btn" id="btn-wire" aria-pressed="false">Wireframe: Off</button>
-          <button type="button" class="cad-btn" id="btn-reset">Reset view</button>
-        </div>
-      </div>
-      <div class="cad-stage" id="cad-stage">
-        <canvas id="cad-canvas"></canvas>
-        <div class="cad-loading" id="cad-loading">
-          <span class="eyebrow" id="cad-loading-text">Loading model — 0%</span>
-        </div>
-      </div>
-      <div class="cad-hint">Drag to orbit &middot; scroll or pinch to zoom &middot; right-click drag to pan</div>
-    </div>
+
 
   </div>
 </section>
@@ -998,151 +950,7 @@
 })();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script>
-(function(){
-  const stage = document.getElementById('cad-stage');
-  const canvas = document.getElementById('cad-canvas');
-  const loadingEl = document.getElementById('cad-loading');
-  const loadingText = document.getElementById('cad-loading-text');
-  const btnRotate = document.getElementById('btn-rotate');
-  const btnWire = document.getElementById('btn-wire');
-  const btnReset = document.getElementById('btn-reset');
 
-  if (!window.THREE || !canvas){ return; }
-
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.01, 5000);
-
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(stage.clientWidth, stage.clientHeight);
-  renderer.outputEncoding = THREE.sRGBEncoding;
-
-  // Lighting — neutral studio setup
-  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-  const keyLight = new THREE.DirectionalLight(0xfff2e6, 1.1);
-  keyLight.position.set(4, 6, 5);
-  scene.add(keyLight);
-  const fillLight = new THREE.DirectionalLight(0x8ecdf0, 0.4);
-  fillLight.position.set(-5, -2, -4);
-  scene.add(fillLight);
-  const rimLight = new THREE.DirectionalLight(0xff6a1a, 0.5);
-  rimLight.position.set(-3, 4, -6);
-  scene.add(rimLight);
-
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.autoRotate = !prefersReduced;
-  controls.autoRotateSpeed = 1.4;
-  controls.minDistance = 0.01;
-  controls.maxDistance = 5000;
-
-  let modelRoot = null;
-  let defaultCamPos = null;
-  let defaultTarget = null;
-  let wireframeOn = false;
-
-  function frameObject(object){
-    const box = new THREE.Box3().setFromObject(object);
-    const size = box.getSize(new THREE.Vector3());
-    const center = box.getCenter(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z) || 1;
-
-    object.position.sub(center);
-
-    const fitDist = (maxDim / 2) / Math.tan((camera.fov * Math.PI / 180) / 2) * 1.6;
-    camera.position.set(fitDist * 0.6, fitDist * 0.45, fitDist * 0.8);
-    camera.near = maxDim / 1000;
-    camera.far = maxDim * 100;
-    camera.updateProjectionMatrix();
-
-    controls.target.set(0, 0, 0);
-    controls.update();
-
-    defaultCamPos = camera.position.clone();
-    defaultTarget = controls.target.clone();
-  }
-
-  const loader = new THREE.GLTFLoader();
-  loader.load(
-    'model.glb',
-    (gltf) => {
-      modelRoot = gltf.scene;
-      modelRoot.traverse((child) => {
-        if (child.isMesh && child.material){
-          const mats = Array.isArray(child.material) ? child.material : [child.material];
-          mats.forEach(m => { if ('metalness' in m) m.envMapIntensity = 1; });
-        }
-      });
-      scene.add(modelRoot);
-      frameObject(modelRoot);
-      loadingEl.classList.add('hidden');
-      setTimeout(() => { loadingEl.style.display = 'none'; }, 450);
-    },
-    (xhr) => {
-      if (xhr.total){
-        const pct = Math.min(100, Math.round((xhr.loaded / xhr.total) * 100));
-        loadingText.textContent = 'Loading model — ' + pct + '%';
-      }
-    },
-    (err) => {
-      loadingText.textContent = 'Model failed to load';
-      console.error('GLTF load error', err);
-    }
-  );
-
-  function setWireframe(on){
-    wireframeOn = on;
-    if (modelRoot){
-      modelRoot.traverse((child) => {
-        if (child.isMesh && child.material){
-          const mats = Array.isArray(child.material) ? child.material : [child.material];
-          mats.forEach(m => { m.wireframe = on; });
-        }
-      });
-    }
-    btnWire.setAttribute('aria-pressed', String(on));
-    btnWire.textContent = 'Wireframe: ' + (on ? 'On' : 'Off');
-  }
-
-  btnRotate.addEventListener('click', () => {
-    controls.autoRotate = !controls.autoRotate;
-    btnRotate.setAttribute('aria-pressed', String(controls.autoRotate));
-    btnRotate.textContent = 'Auto-rotate: ' + (controls.autoRotate ? 'On' : 'Off');
-  });
-
-  btnWire.addEventListener('click', () => setWireframe(!wireframeOn));
-
-  btnReset.addEventListener('click', () => {
-    if (!defaultCamPos) return;
-    camera.position.copy(defaultCamPos);
-    controls.target.copy(defaultTarget);
-    controls.update();
-  });
-
-  function resize(){
-    const w = stage.clientWidth, h = stage.clientHeight;
-    if (w === 0 || h === 0) return;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  }
-  window.addEventListener('resize', resize);
-
-  function animate(){
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-  }
-  animate();
-})();
-</script>
 
 </body>
 </html>
