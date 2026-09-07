@@ -156,21 +156,37 @@
 
   /* ---------- HERO PHOTO ---------- */
   .hero-photo{
-    margin-top: clamp(28px, 5vw, 56px);
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    top: clamp(150px, 17vw, 230px);
+    right: clamp(8vw, 16vw, 19vw);
+    width: min(42vw, 560px);
+    margin: 0;
     pointer-events: none;
+    z-index: 0;
   }
   .hero-photo img{
-    width: min(56vw, 720px);
+    display: block;
+    width: 100%;
     max-width: 100%;
     height: auto;
     opacity: 0.4;
     -webkit-mask-image: linear-gradient(to left, black 35%, transparent 95%);
     mask-image: linear-gradient(to left, black 35%, transparent 95%);
   }
-  @media (max-width: 640px){
-    .hero-photo img{ width: min(75vw, 480px); opacity: 0.3; }
+  .hero-top,
+  .title-block{
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 720px){
+    .hero-photo{
+      position: relative;
+      top: auto;
+      right: auto;
+      width: min(75vw, 480px);
+      margin: 28px 0 0 auto;
+    }
+    .hero-photo img{ opacity: 0.3; }
   }
   .section-inner{ max-width: 1180px; margin: 0 auto; }
 
