@@ -154,34 +154,32 @@
 
   section{ padding: clamp(60px, 9vw, 120px) 6vw; position: relative; }
 
-  /* ---------- EXPERIENCE PHOTO ---------- */
-  #experience{ overflow: hidden; }
-  .exp-photo{
+  /* ---------- HERO PHOTO ---------- */
+  .hero{ overflow: hidden; }
+  .hero-photo{
     position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: min(64vw, 900px);
+    left: 0; right: 0; bottom: 0;
+    height: clamp(220px, 32vw, 380px);
     pointer-events: none;
     z-index: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-end;
   }
-  .exp-photo img{
-    width: 100%;
+  .hero-photo img{
+    width: min(58vw, 820px);
     height: auto;
-    opacity: 0.4;
+    opacity: 0.38;
     -webkit-mask-image: linear-gradient(to left, black 30%, transparent 92%),
-                         linear-gradient(to top, black 60%, transparent 100%),
-                         linear-gradient(to bottom, black 60%, transparent 100%);
-    -webkit-mask-composite: source-in, source-in;
+                         linear-gradient(to top, black 45%, transparent 100%);
+    -webkit-mask-composite: source-in;
     mask-image: linear-gradient(to left, black 30%, transparent 92%),
-                linear-gradient(to top, black 60%, transparent 100%),
-                linear-gradient(to bottom, black 60%, transparent 100%);
-    mask-composite: intersect, intersect;
+                linear-gradient(to top, black 45%, transparent 100%);
+    mask-composite: intersect;
   }
-  #experience .section-inner{ position: relative; z-index: 1; }
+  .hero .hero-top, .hero .title-block{ position: relative; z-index: 1; }
   @media (max-width: 900px){
-    .exp-photo{ display: none; }
+    .hero-photo{ display: none; }
   }
   .section-inner{ max-width: 1180px; margin: 0 auto; }
 
@@ -516,6 +514,10 @@
       <div class="tb-cell"><span class="tb-label">Current Role</span><span class="tb-value">Sr. Design Eng., NUS FSAE</span></div>
     </div>
   </div>
+
+  <div class="hero-photo" aria-hidden="true">
+    <img src="assets/fsae-car.webp" alt="" loading="lazy">
+  </div>
 </section>
 
 <!-- EDUCATION -->
@@ -587,9 +589,6 @@
 
 <!-- EXPERIENCE -->
 <section id="experience">
-  <div class="exp-photo" aria-hidden="true">
-    <img src="assets/fsae-car.webp" alt="" loading="lazy">
-  </div>
   <div class="section-inner">
     <div class="sec-head reveal"><span class="sec-no">02</span><h2>Experience</h2><div class="rule"></div></div>
     <div class="timeline">
