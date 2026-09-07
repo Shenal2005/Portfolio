@@ -155,31 +155,22 @@
   section{ padding: clamp(60px, 9vw, 120px) 6vw; position: relative; }
 
   /* ---------- HERO PHOTO ---------- */
-  .hero{ overflow: hidden; }
   .hero-photo{
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: clamp(220px, 32vw, 380px);
-    pointer-events: none;
-    z-index: 0;
+    margin-top: clamp(28px, 5vw, 56px);
     display: flex;
-    align-items: flex-end;
     justify-content: flex-end;
+    pointer-events: none;
   }
   .hero-photo img{
-    width: min(58vw, 820px);
+    width: min(56vw, 720px);
+    max-width: 100%;
     height: auto;
-    opacity: 0.38;
-    -webkit-mask-image: linear-gradient(to left, black 30%, transparent 92%),
-                         linear-gradient(to top, black 45%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to left, black 30%, transparent 92%),
-                linear-gradient(to top, black 45%, transparent 100%);
-    mask-composite: intersect;
+    opacity: 0.4;
+    -webkit-mask-image: linear-gradient(to left, black 35%, transparent 95%);
+    mask-image: linear-gradient(to left, black 35%, transparent 95%);
   }
-  .hero .hero-top, .hero .title-block{ position: relative; z-index: 1; }
-  @media (max-width: 900px){
-    .hero-photo{ display: none; }
+  @media (max-width: 640px){
+    .hero-photo img{ width: min(75vw, 480px); opacity: 0.3; }
   }
   .section-inner{ max-width: 1180px; margin: 0 auto; }
 
@@ -513,10 +504,10 @@
       <div class="tb-cell"><span class="tb-label">LinkedIn</span><span class="tb-value"><a href="https://www.linkedin.com/in/shenalashendra/" target="_blank" rel="noopener">/shenalashendra</a></span></div>
       <div class="tb-cell"><span class="tb-label">Current Role</span><span class="tb-value">Sr. Design Eng., NUS FSAE</span></div>
     </div>
-  </div>
 
-  <div class="hero-photo" aria-hidden="true">
-    <img src="assets/fsae-car.webp" alt="" loading="lazy">
+    <div class="hero-photo reveal" style="transition-delay:520ms;" aria-hidden="true">
+      <img src="assets/fsae-car.webp" alt="" loading="lazy">
+    </div>
   </div>
 </section>
 
