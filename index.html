@@ -762,6 +762,82 @@
     .comparison-viewer{height:320px;}
   }
 
+
+/* THEME TOGGLE */
+:root {
+  --theme-bg: #080b0d;
+  --theme-panel: #0d1215;
+  --theme-text: #e8eef0;
+  --theme-muted: #8fa0a8;
+  --theme-line: rgba(143,160,168,.22);
+}
+body.light-theme {
+  --theme-bg: #f2f4f3;
+  --theme-panel: #ffffff;
+  --theme-text: #172126;
+  --theme-muted: #52636b;
+  --theme-line: rgba(23,33,38,.20);
+  background: var(--theme-bg) !important;
+  color: var(--theme-text) !important;
+}
+body.light-theme .drawing-panel,
+body.light-theme .proj-card,
+body.light-theme .cert-card,
+body.light-theme .award-group {
+  background: var(--theme-panel) !important;
+  color: var(--theme-text) !important;
+  border-color: var(--theme-line) !important;
+}
+body.light-theme .nav,
+body.light-theme .site-header {
+  background: rgba(242,244,243,.88) !important;
+}
+body.light-theme .nav-link,
+body.light-theme .t-list,
+body.light-theme .proj-desc,
+body.light-theme .cert-date,
+body.light-theme .cert-provider,
+body.light-theme .award-text {
+  color: var(--theme-muted) !important;
+}
+body.light-theme .hero-sub,
+body.light-theme .section-kicker {
+  color: var(--theme-muted) !important;
+}
+body.light-theme #grid-bg {
+  opacity: .25;
+}
+body.light-theme .theme-toggle {
+  color: var(--theme-text);
+  border-color: var(--theme-line);
+  background: rgba(255,255,255,.72);
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  padding: 8px 11px;
+  border: 1px solid rgba(143,160,168,.28);
+  background: rgba(8,11,13,.45);
+  color: #e8eef0;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .2s ease;
+}
+.theme-toggle:hover {
+  border-color: var(--hv, #ff6a1a);
+  transform: translateY(-1px);
+}
+.theme-toggle .theme-icon { font-size: 13px; line-height: 1; }
+@media(max-width:780px){
+  .theme-toggle { margin-left: 6px; padding: 7px 9px; }
+  .theme-toggle .theme-label { display:none; }
+}
+
 </style>
 
 <!-- Interactive CAD viewer -->
@@ -784,6 +860,12 @@
       <a href="#awards">Awards</a>
     <a href="#contact">Contact</a>
   </div>
+
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme">
+  <span class="theme-icon" id="theme-icon">☼</span>
+  <span class="theme-label" id="theme-label">Light</span>
+</button>
+
 </nav>
 
 <!-- HERO -->
@@ -1425,6 +1507,37 @@
     const box=document.querySelector('.cad-comparison');
     if(box && box.requestFullscreen) box.requestFullscreen();
   });
+})();
+</script>
+
+
+<script>
+(function(){
+  const body = document.body;
+  const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  const label = document.getElementById('theme-label');
+  if (!toggle) return;
+
+  const saved = localStorage.getItem('portfolio-theme');
+  if (saved === 'light') body.classList.add('light-theme');
+
+  function updateThemeUI(){
+    const light = body.classList.contains('light-theme');
+    icon.textContent = light ? '☾' : '☼';
+    label.textContent = light ? 'Dark' : 'Light';
+    toggle.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+    toggle.setAttribute('title', light ? 'Switch to dark theme' : 'Switch to light theme');
+  }
+
+  toggle.addEventListener('click', function(){
+    body.classList.toggle('light-theme');
+    const theme = body.classList.contains('light-theme') ? 'light' : 'dark';
+    localStorage.setItem('portfolio-theme', theme);
+    updateThemeUI();
+  });
+
+  updateThemeUI();
 })();
 </script>
 
