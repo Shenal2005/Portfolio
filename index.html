@@ -525,6 +525,145 @@
   }
   .cad-btn:hover{ border-color:var(--hv-dim); color:var(--hv); }
   @media (max-width:720px){ .cad-viewer{height:320px;} }
+
+  /* ---------- ELECTRICAL PACKAGING COMPARISON ---------- */
+  .packaging-impact{
+    margin-top:22px;
+    border:1px solid var(--hairline);
+    background:rgba(255,106,26,.035);
+  }
+  .impact-main{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:18px 20px;
+    border-bottom:1px solid var(--hairline);
+  }
+  .impact-number{
+    font-family:var(--display);
+    font-size:clamp(2.5rem,5vw,4.2rem);
+    font-weight:700;
+    line-height:.9;
+    color:var(--hv);
+    letter-spacing:-.06em;
+  }
+  .impact-label{
+    display:block;
+    font-family:var(--mono);
+    font-size:.7rem;
+    letter-spacing:.12em;
+    color:var(--paper);
+  }
+  .impact-main p{
+    margin-top:4px;
+    color:var(--steel);
+    font-size:.78rem;
+  }
+  .impact-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+  }
+  .impact-grid > div{
+    padding:13px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    border-right:1px solid var(--hairline);
+  }
+  .impact-grid > div:last-child{border-right:0;}
+  .impact-kicker{
+    font-family:var(--mono);
+    font-size:.6rem;
+    color:var(--hv);
+  }
+  .impact-grid strong{font-size:.82rem;font-weight:600;}
+  .impact-grid span:last-child{font-size:.7rem;color:var(--steel);line-height:1.4;}
+
+  .comparison-head{
+    margin-top:24px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .comparison-title{
+    margin-top:4px;
+    font-family:var(--display);
+    font-size:1.15rem;
+    font-weight:600;
+  }
+  .comparison-note{
+    font-family:var(--mono);
+    font-size:.62rem;
+    color:var(--steel);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .cad-comparison{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:12px;
+  }
+  .comparison-panel{
+    position:relative;
+    min-width:0;
+    border:1px solid var(--hairline);
+    background:rgba(8,12,15,.72);
+    overflow:hidden;
+  }
+  .comparison-current{border-color:rgba(255,106,26,.42);}
+  .comparison-label{
+    position:absolute;
+    top:10px;left:12px;right:12px;
+    z-index:4;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    pointer-events:none;
+  }
+  .comparison-label span{
+    font-family:var(--mono);
+    font-size:.65rem;
+    letter-spacing:.13em;
+    color:var(--paper);
+  }
+  .comparison-current .comparison-label span{color:var(--hv);}
+  .comparison-label small{
+    font-family:var(--mono);
+    font-size:.58rem;
+    color:var(--steel);
+  }
+  .comparison-viewer{height:390px;}
+  .comparison-controls{
+    border:1px solid var(--hairline);
+    border-top:0;
+  }
+  .comparison-caption{
+    margin-top:12px;
+    padding:15px 16px;
+    border-left:2px solid var(--hv);
+    background:rgba(255,106,26,.035);
+    display:grid;
+    gap:3px;
+  }
+  .caption-accent{
+    font-family:var(--mono);
+    font-size:.62rem;
+    color:var(--hv);
+    letter-spacing:.12em;
+  }
+  .comparison-caption strong{font-size:.9rem;}
+  .comparison-caption span:last-child{font-size:.75rem;color:var(--steel);}
+  @media (max-width:720px){
+    .impact-grid{grid-template-columns:1fr;}
+    .impact-grid > div{border-right:0;border-bottom:1px solid var(--hairline);}
+    .impact-grid > div:last-child{border-bottom:0;}
+    .comparison-head{align-items:flex-start;flex-direction:column;}
+    .cad-comparison{grid-template-columns:1fr;}
+    .comparison-viewer{height:320px;}
+  }
+
 </style>
 
 <!-- Interactive CAD viewer -->
@@ -714,29 +853,78 @@
         <span class="corner-tl"></span><span class="corner-br"></span>
         <span class="proj-index">PROJ. 01 — HV PACKAGING</span>
         <div class="proj-title">Electrical Packaging Redesign</div>
-        <div class="proj-desc">Diagnosed the root cause of a rain-test failure at competition and led a ground-up redesign of the vehicle's electrical enclosure and harness architecture to eliminate crisscrossed routing and improve IP-rated waterproofing.</div>
-        <div class="proj-tags"><span class="tag">SolidWorks</span><span class="tag">DFM/DFA</span><span class="tag">Powertrain Design Lead</span></div>
-        <div class="proj-stat">Next phase: forged carbon composite, target &gt;30% weight cut</div>
+        <div class="proj-desc">Diagnosed the root cause of a rain-test failure at competition and led a ground-up redesign of the vehicle's electrical enclosure and harness architecture. The current package reorganises harness paths to minimise crossovers and make electrical connections easier to access and service.</div>
+        <div class="proj-tags"><span class="tag">SolidWorks</span><span class="tag">Harness Packaging</span><span class="tag">DFM/DFA</span><span class="tag">Powertrain Design Lead</span></div>
 
-        <div class="cad-viewer-wrap">
-          <model-viewer
-            id="electrical-cad"
-            class="cad-viewer"
-            src="models/electrical-packaging.glb"
-            camera-controls
-            auto-rotate
-            rotation-per-second="18deg"
-            shadow-intensity="0.65"
-            exposure="0.85"
-            environment-image="neutral"
-            interaction-prompt="none"
-            alt="Interactive 3D model of the electrical packaging wiring assembly">
-          </model-viewer>
-          <div class="cad-controls">
-            <button class="cad-btn" type="button" id="cad-reset">Reset view</button>
-            <button class="cad-btn" type="button" id="cad-rotate">Pause rotation</button>
-            <button class="cad-btn" type="button" id="cad-fullscreen">Fullscreen</button>
+        <div class="packaging-impact">
+          <div class="impact-main">
+            <span class="impact-number">95%</span>
+            <div>
+              <span class="impact-label">REDUCTION IN HARNESS CRISS-CROSSING</span>
+              <p>Current-year layout compared with the previous-year wiring package.</p>
+            </div>
           </div>
+          <div class="impact-grid">
+            <div><span class="impact-kicker">01</span><strong>Cleaner routing</strong><span>Harnesses follow more direct, organised paths.</span></div>
+            <div><span class="impact-kicker">02</span><strong>Easier connectivity</strong><span>Connector locations are easier to reach and identify.</span></div>
+            <div><span class="impact-kicker">03</span><strong>Better serviceability</strong><span>Less crossing makes inspection and troubleshooting simpler.</span></div>
+          </div>
+        </div>
+
+        <div class="comparison-head">
+          <div>
+            <span class="proj-index">INTERACTIVE COMPARISON</span>
+            <div class="comparison-title">Previous Package vs Current Redesign</div>
+          </div>
+          <div class="comparison-note">Drag to rotate · Scroll to zoom</div>
+        </div>
+
+        <div class="cad-comparison">
+          <div class="comparison-panel">
+            <div class="comparison-label"><span>PREVIOUS-YEAR</span><small>Original wiring layout</small></div>
+            <model-viewer
+              id="electrical-cad-previous"
+              class="cad-viewer comparison-viewer"
+              src="models/electrical-packaging-previous.glb"
+              camera-controls
+              auto-rotate
+              rotation-per-second="14deg"
+              shadow-intensity="0.65"
+              exposure="0.85"
+              environment-image="neutral"
+              interaction-prompt="none"
+              alt="Interactive 3D model of the previous-year electrical wiring package">
+            </model-viewer>
+          </div>
+
+          <div class="comparison-panel comparison-current">
+            <div class="comparison-label"><span>CURRENT-YEAR</span><small>Redesigned wiring layout</small></div>
+            <model-viewer
+              id="electrical-cad-current"
+              class="cad-viewer comparison-viewer"
+              src="models/electrical-packaging.glb"
+              camera-controls
+              auto-rotate
+              rotation-per-second="14deg"
+              shadow-intensity="0.65"
+              exposure="0.85"
+              environment-image="neutral"
+              interaction-prompt="none"
+              alt="Interactive 3D model of the current-year electrical wiring package">
+            </model-viewer>
+          </div>
+        </div>
+
+        <div class="cad-controls comparison-controls">
+          <button class="cad-btn" type="button" id="cad-reset-all">Reset views</button>
+          <button class="cad-btn" type="button" id="cad-rotate-all">Pause rotation</button>
+          <button class="cad-btn" type="button" id="cad-fullscreen-all">Fullscreen comparison</button>
+        </div>
+
+        <div class="comparison-caption">
+          <span class="caption-accent">// DESIGN OUTCOME</span>
+          <strong>Less cross-routing. More accessible connection points.</strong>
+          <span>The redesigned architecture prioritises direct harness paths and clearer connector access, improving packaging cleanliness and serviceability.</span>
         </div>
       </div>
 
@@ -1067,23 +1255,32 @@
 
 <script>
 (function(){
-  const viewer=document.getElementById('electrical-cad');
-  if(!viewer) return;
-  const reset=document.getElementById('cad-reset');
-  const rotate=document.getElementById('cad-rotate');
-  const full=document.getElementById('cad-fullscreen');
+  const previous=document.getElementById('electrical-cad-previous');
+  const current=document.getElementById('electrical-cad-current');
+  if(!previous || !current) return;
+
+  const reset=document.getElementById('cad-reset-all');
+  const rotate=document.getElementById('cad-rotate-all');
+  const full=document.getElementById('cad-fullscreen-all');
   const defaultOrbit='0deg 75deg 105%';
+
   reset.addEventListener('click',()=>{
-    viewer.cameraOrbit=defaultOrbit;
-    viewer.fieldOfView='auto';
-    viewer.jumpCameraToGoal();
+    [previous,current].forEach(viewer=>{
+      viewer.cameraOrbit=defaultOrbit;
+      viewer.fieldOfView='auto';
+      viewer.jumpCameraToGoal();
+    });
   });
+
   rotate.addEventListener('click',()=>{
-    viewer.autoRotate=!viewer.autoRotate;
-    rotate.textContent=viewer.autoRotate?'Pause rotation':'Resume rotation';
+    const shouldRotate=!previous.autoRotate;
+    previous.autoRotate=shouldRotate;
+    current.autoRotate=shouldRotate;
+    rotate.textContent=shouldRotate?'Pause rotation':'Resume rotation';
   });
+
   full.addEventListener('click',()=>{
-    const box=viewer.closest('.cad-viewer-wrap');
+    const box=document.querySelector('.cad-comparison');
     if(box && box.requestFullscreen) box.requestFullscreen();
   });
 })();
