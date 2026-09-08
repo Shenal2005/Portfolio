@@ -82,7 +82,7 @@
     mix-blend-mode:screen;
   }
   body.light-theme #grid-bg{
-    opacity:.46;
+    opacity:.38;
     mix-blend-mode:multiply;
   }
 
@@ -785,7 +785,7 @@
     .comparison-viewer{height:320px;}
   }
 
-/* THEME TOGGLE */
+/* LOW-GLARE SOFT LIGHT THEME */
 :root{
   --theme-bg:#080b0d;
   --theme-panel:#0d1215;
@@ -795,67 +795,72 @@
 }
 
 body.light-theme{
-  --ink:#f4f5f3;
-  --panel:#ffffff;
-  --paper:#172126;
-  --paper-dim:#5b6970;
-  --hv:#ff6a1a;
-  --hv-dim:#c64f0f;
-  --steel:#60727c;
-  --grid-line:rgba(23,33,38,.065);
-  --hairline:rgba(23,33,38,.16);
+  --ink:#E2DFD7;
+  --panel:#EBE8E0;
+  --paper:#1A2328;
+  --paper-dim:#4E5D65;
+  --hv:#E05300;
+  --hv-dim:#9E3B00;
+  --steel:#5C6E78;
+  --grid-line:rgba(26,35,40,.08);
+  --hairline:rgba(26,35,40,.18);
 
-  --theme-bg:#f4f5f3;
-  --theme-panel:#ffffff;
-  --theme-text:#172126;
-  --theme-muted:#52636b;
-  --theme-line:rgba(23,33,38,.16);
+  --theme-bg:#E2DFD7;
+  --theme-panel:#EBE8E0;
+  --theme-text:#1A2328;
+  --theme-muted:#4E5D65;
+  --theme-line:rgba(26,35,40,.18);
 
   background:var(--ink) !important;
   color:var(--paper) !important;
 }
 
 body.light-theme nav{
-  background:rgba(244,245,243,.90) !important;
+  background:rgba(226,223,215,.92) !important;
   border-bottom-color:var(--hairline) !important;
 }
-body.light-theme .nav-link,
-body.light-theme .nav-mark,
-body.light-theme .hero-sub,
-body.light-theme .section-kicker,
-body.light-theme .t-list,
+body.light-theme .nav-links a{
+  color:var(--paper-dim) !important;
+}
+body.light-theme .nav-links a:hover{
+  color:var(--paper) !important;
+}
+body.light-theme .hero-role,
+body.light-theme .hero-status,
+body.light-theme .t-list li,
 body.light-theme .proj-desc,
 body.light-theme .cert-date,
-body.light-theme .cert-provider,
 body.light-theme .award-text{
   color:var(--paper-dim) !important;
 }
-body.light-theme .hero-sub{color:#53636b !important;}
-body.light-theme .section-title,
+body.light-theme .hero-name,
 body.light-theme .proj-title,
 body.light-theme .cert-name,
-body.light-theme .award-title,
+body.light-theme .award-group h3,
 body.light-theme .comparison-title,
-body.light-theme .drawing-title,
-body.light-theme .hero-title,
-body.light-theme .edu-title,
-body.light-theme .exp-title{
+body.light-theme .sec-head h2,
+body.light-theme .edu-inst,
+body.light-theme .school-inst,
+body.light-theme .t-role{
   color:var(--paper) !important;
 }
 
 body.light-theme .drawing-panel,
 body.light-theme .proj-card,
 body.light-theme .cert-card,
-body.light-theme .award-group{
+body.light-theme .award-group,
+body.light-theme .edu-cell,
+body.light-theme .school-cell,
+body.light-theme .module-record summary{
   background:var(--panel) !important;
   color:var(--paper) !important;
   border-color:var(--hairline) !important;
-  box-shadow:0 8px 30px rgba(23,33,38,.045);
+  box-shadow:0 4px 18px rgba(26,35,40,.035);
 }
 
-body.light-theme .impact-grid,
+body.light-theme .packaging-impact,
 body.light-theme .comparison-caption{
-  background:rgba(255,106,26,.045) !important;
+  background:rgba(224,83,0,.06) !important;
 }
 body.light-theme .impact-grid > div{border-color:var(--hairline) !important;}
 body.light-theme .comparison-caption{border-left-color:var(--hv) !important;}
@@ -863,15 +868,15 @@ body.light-theme .comparison-caption span:last-child{color:var(--steel) !importa
 
 body.light-theme .comparison-viewer,
 body.light-theme model-viewer{
-  background:#3f4346 !important;
+  background:#2D353A !important;
 }
 
-body.light-theme #grid-bg{opacity:.34;}
+body.light-theme #grid-bg{opacity:.38;}
 body.light-theme ::selection{background:var(--hv);color:#fff;}
 body.light-theme .theme-toggle{
   color:var(--paper);
   border-color:var(--hairline);
-  background:rgba(255,255,255,.78);
+  background:rgba(235,232,224,.85);
 }
 body.light-theme .theme-toggle:hover{border-color:var(--hv);}
 
@@ -1407,7 +1412,6 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
       if (slot) slot.classList.add('hide');
     };
 
-    // Check if the model is already loaded (from cache or quick load)
     if (viewer.loaded) {
       dismiss();
     }
