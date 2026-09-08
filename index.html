@@ -120,7 +120,6 @@
   .nav-links{ display:flex; gap: clamp(14px, 2vw, 32px); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
   .nav-links a{ text-decoration:none; color: var(--paper-dim); border-bottom: 1px solid transparent; padding-bottom: 3px; transition: color .15s, border-color .15s; }
   .nav-links a:hover{ color: var(--paper); border-color: var(--hv); }
-  .nav-toggle{ display:none; }
 
   @media (max-width: 720px){
     .nav-links{ display:none; }
@@ -300,7 +299,6 @@
 
   @media (max-width: 780px){ .edu-grid{ grid-template-columns: 1fr; } }
 
-
   /* ---------- PRIOR EDUCATION ---------- */
   .school-record{
     margin-top: 14px;
@@ -380,7 +378,6 @@
   .t-list li::before{ content:'—'; position:absolute; left:0; color: var(--steel); }
 
   /* ---------- PROJECTS ---------- */
-  /* ---------- PROJECTS / LANDSCAPE CARDS ---------- */
   .proj-grid{ display:grid; grid-template-columns: 1fr; gap: 20px; }
   .proj-card{
     padding: 30px 32px;
@@ -430,15 +427,6 @@
   .bom td.no{ font-family: var(--mono); color: var(--hv); width: 48px; }
   .bom td.cat{ color: var(--steel); font-family: var(--mono); font-size:0.78rem; white-space:nowrap; }
   .bom tr:hover td{ background: rgba(255,255,255,0.02); }
-
-  /* ---------- AWARDS ---------- */
-  .awards-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--hairline); border:1px solid var(--hairline); }
-  @media (max-width: 780px){ .awards-grid{ grid-template-columns: 1fr; } }
-  .award-group{ background: var(--ink); padding: 30px clamp(20px,3vw,40px); }
-  .award-group h3{ font-family: var(--display); font-size: 1.1rem; margin-bottom: 4px; }
-  .award-group .t-date{ display:block; margin-bottom: 18px; }
-  .award-row{ display:flex; gap:12px; padding: 12px 0; border-top: 1px solid var(--grid-line); }
-  .award-row:first-of-type{ border-top:none; }
 
   /* ---------- CERTIFICATIONS ---------- */
   .certifications-grid{
@@ -507,7 +495,6 @@
   .award-row{ display:flex; gap:12px; padding: 12px 0; border-top: 1px solid var(--grid-line); }
   .award-row:first-of-type{ border-top:none; }
 
-
   /* Award rows that have an expandable certificate */
   details.award-row{ display:block; padding: 0; }
   details.award-row summary{
@@ -571,7 +558,6 @@
     transform: translateY(0) scale(1);
     filter: blur(0);
   }
-  .reveal.in{ opacity:1; transform: translateY(0); }
 
   /* ---------- INTERACTIVE CAD PROJECT ---------- */
   .cad-viewer-wrap{
@@ -759,7 +745,6 @@
     .comparison-viewer{height:320px;}
   }
 
-
 /* THEME TOGGLE */
 :root{
   --theme-bg:#080b0d;
@@ -769,9 +754,6 @@
   --theme-line:rgba(143,160,168,.22);
 }
 
-/* Light theme: deliberately re-map the original design tokens so every
-   section inherits the correct contrast instead of requiring dozens of
-   component-specific overrides. */
 body.light-theme{
   --ink:#f4f5f3;
   --panel:#ffffff;
@@ -839,7 +821,6 @@ body.light-theme .impact-grid > div{border-color:var(--hairline) !important;}
 body.light-theme .comparison-caption{border-left-color:var(--hv) !important;}
 body.light-theme .comparison-caption span:last-child{color:var(--steel) !important;}
 
-/* Keep the CAD canvases dark for maximum model readability. */
 body.light-theme .comparison-viewer,
 body.light-theme model-viewer{
   background:#3f4346 !important;
@@ -896,15 +877,14 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
     <a href="#projects">Projects</a>
     <a href="#skills">Skills</a>
     <a href="#certifications">Certifications</a>
-      <a href="#awards">Awards</a>
+    <a href="#awards">Awards</a>
     <a href="#contact">Contact</a>
   </div>
 
-<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme">
-  <span class="theme-icon" id="theme-icon">☼</span>
-  <span class="theme-label" id="theme-label">Light</span>
-</button>
-
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch theme">
+    <span class="theme-icon" id="theme-icon">☼</span>
+    <span class="theme-label" id="theme-label">Light</span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -970,7 +950,6 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
         <div class="gpa-bar"><div class="gpa-bar-fill"></div></div>
       </div>
       <details class="module-record">
-        <span class="corner-tl"></span><span class="corner-br"></span>
         <summary>
           <span>Module Record — Grade A- and above<span class="module-count">(21)</span></span>
           <span class="arrow">&#9660;</span>
@@ -1025,8 +1004,6 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
         <span class="school-highlight">4A* at A Level</span>
       </div>
     </div>
-
-
   </div>
 </section>
 
@@ -1185,9 +1162,6 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
       </div>
 
     </div>
-
-
-
   </div>
 </section>
 
@@ -1252,6 +1226,7 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
           <a class="cert-link" href="certs/solidworks-cswp.pdf" download>PDF</a>
         </div>
       </article>
+
       <article class="cert-card drawing-panel reveal" style="transition-delay:280ms;">
         <span class="corner-tl"></span><span class="corner-br"></span>
         <div class="cert-card-head">
@@ -1271,7 +1246,6 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
     </div>
   </div>
 </section>
-
 
 <!-- AWARDS -->
 <section id="awards">
@@ -1334,7 +1308,7 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
 <!-- CONTACT -->
 <footer id="contact">
   <div class="foot-inner">
-    <div class="eyebrow" style="margin-bottom:18px;">06 — Contact</div>
+    <div class="eyebrow" style="margin-bottom:18px;">07 — Contact</div>
     <div class="foot-cta reveal" style="transition-delay:0ms;">Open to full-time and graduate <span>mechanical engineering</span> roles.</div>
     <div class="foot-links reveal" style="transition-delay:160ms;">
       <a class="foot-link" href="mailto:shenalashendra.173@gmail.com"><span class="tb-label">Email</span><span class="tb-value">shenalashendra.173@gmail.com</span></a>
@@ -1348,17 +1322,65 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
   </div>
 </footer>
 
+<!-- Theme Toggle Logic & Interactive CAD Controls -->
 <script>
+  // Theme Toggle Controller
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  const themeLabel = document.getElementById('theme-label');
+
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    themeIcon.textContent = isLight ? '☾' : '☼';
+    themeLabel.textContent = isLight ? 'Dark' : 'Light';
+  });
+
+  // Stamp current year in footer
   document.getElementById('year-stamp').textContent = 'UPDATED ' + new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }).toUpperCase();
 
+  // Scroll Reveal Animations
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   reveals.forEach(el => io.observe(el));
+
+  // Model-viewer controls binding
+  const modelPrev = document.getElementById('electrical-cad-previous');
+  const modelCurr = document.getElementById('electrical-cad-current');
+  const btnReset = document.getElementById('cad-reset-all');
+  const btnRotate = document.getElementById('cad-rotate-all');
+  const btnFullscreen = document.getElementById('cad-fullscreen-all');
+
+  if (btnReset) {
+    btnReset.addEventListener('click', () => {
+      if (modelPrev) modelPrev.cameraOrbit = '0deg 75deg 100%';
+      if (modelCurr) modelCurr.cameraOrbit = '0deg 75deg 100%';
+    });
+  }
+
+  if (btnRotate) {
+    let isRotating = true;
+    btnRotate.addEventListener('click', () => {
+      isRotating = !isRotating;
+      if (modelPrev) modelPrev.autoRotate = isRotating;
+      if (modelCurr) modelCurr.autoRotate = isRotating;
+      btnRotate.textContent = isRotating ? 'Pause rotation' : 'Resume rotation';
+    });
+  }
+
+  if (btnFullscreen) {
+    btnFullscreen.addEventListener('click', () => {
+      const compTarget = document.querySelector('.cad-comparison');
+      if (compTarget && compTarget.requestFullscreen) {
+        compTarget.requestFullscreen();
+      }
+    });
+  }
 </script>
 
-<!-- Ambient engineering / blueprint background -->
+<!-- Ambient engineering / blueprint canvas background -->
 <script>
 (function(){
   const canvas = document.getElementById('grid-bg');
