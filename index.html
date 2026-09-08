@@ -1403,6 +1403,79 @@
   @keyframes loaderDots{
     0%{opacity:0}25%{opacity:.35}50%{opacity:.7}75%,100%{opacity:1}
   }
+
+  .loader-disturbance{
+    position:absolute;
+    inset:0;
+    z-index:4;
+    pointer-events:none;
+    overflow:hidden;
+    opacity:0;
+  }
+  .loader-disturbance::before{
+    content:"";
+    position:absolute;
+    left:-12vw;
+    top:50%;
+    width:0;
+    height:2px;
+    background:#E05300;
+    box-shadow:0 0 18px rgba(224,83,0,.28);
+    transform:translateY(-50%);
+  }
+  .loader-disturbance::after{
+    content:"";
+    position:absolute;
+    left:0;
+    top:50%;
+    width:100%;
+    height:100%;
+    background:radial-gradient(ellipse at 50% 50%, transparent 0 16%, rgba(224,83,0,.06) 16.2%, transparent 17%);
+    transform:translateY(-50%) scale(.2);
+    opacity:0;
+  }
+  #portfolio-loader.is-disturbing .loader-inner{
+    animation:loaderDisturbText .82s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  #portfolio-loader.is-disturbing .golden-system{
+    animation:goldenDisturb .82s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  #portfolio-loader.is-disturbing .loader-disturbance{
+    opacity:1;
+  }
+  #portfolio-loader.is-disturbing .loader-disturbance::before{
+    animation:disturbLine .72s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  #portfolio-loader.is-disturbing .loader-disturbance::after{
+    animation:disturbRipple .72s ease-out forwards;
+  }
+  @keyframes loaderDisturbText{
+    0%{opacity:1;transform:translateX(0);filter:blur(0)}
+    35%{opacity:1;transform:translateX(0);filter:blur(0)}
+    100%{opacity:0;transform:translateX(2.5vw);filter:blur(5px)}
+  }
+  @keyframes goldenDisturb{
+    0%{transform:translate(-50%,-50%) rotate(-7deg) scale(1);opacity:.42}
+    45%{transform:translate(-50%,-50%) rotate(-5deg) scale(1.045);opacity:.5}
+    100%{transform:translate(-50%,-50%) rotate(-3deg) scale(1.13);opacity:0}
+  }
+  @keyframes disturbLine{
+    0%{width:0;left:50%;opacity:0}
+    15%{opacity:1}
+    100%{width:130vw;left:-15vw;opacity:0}
+  }
+  @keyframes disturbRipple{
+    0%{transform:translateY(-50%) scale(.2);opacity:0}
+    25%{opacity:.9}
+    100%{transform:translateY(-50%) scale(2.2);opacity:0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #portfolio-loader.is-disturbing .loader-inner,
+    #portfolio-loader.is-disturbing .golden-system,
+    #portfolio-loader.is-disturbing .loader-disturbance::before,
+    #portfolio-loader.is-disturbing .loader-disturbance::after{animation:none}
+  }
+
   #portfolio-loader.is-hidden{
     opacity:0;
     visibility:hidden;
@@ -1434,6 +1507,7 @@
       <circle class="focus" cx="700" cy="454" r="5"/>
     </svg>
   </div>
+  <div class="loader-disturbance" aria-hidden="true"></div>
   <div class="loader-inner">
     <div class="loader-quote">Laminar Until Disturbed</div>
     <div class="loader-status"><span class="loader-dot"></span> Loading portfolio <span class="loader-percent" id="loader-percent">0%</span></div>
@@ -2140,7 +2214,11 @@
     if(dismissed) return;
     dismissed = true;
     renderProgress(100);
-    loader.classList.add('is-hidden');
+    loader.classList.add('is-disturbing');
+
+    setTimeout(function(){
+      loader.classList.add('is-hidden');
+    }, 680);
 
     requestAnimationFrame(function(){
       window.scrollTo({
@@ -2151,7 +2229,7 @@
 
     setTimeout(function(){
       if(loader && loader.parentNode) loader.parentNode.removeChild(loader);
-    }, 900);
+    }, 1550);
   }
 
   function animateProgress(now){
