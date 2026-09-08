@@ -300,8 +300,30 @@
 
   @media (max-width: 780px){ .edu-grid{ grid-template-columns: 1fr; } }
 
+
+  /* ---------- PRIOR EDUCATION ---------- */
+  .school-record{
+    margin-top: 14px;
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+  }
+  .school-cell{ background:var(--ink); padding:24px clamp(20px,3vw,40px); }
+  .school-inst{ font-family:var(--display); font-weight:600; font-size:1.2rem; margin-bottom:8px; }
+  .school-degree{ color:var(--paper-dim); margin-bottom:5px; }
+  .school-meta{ font-family:var(--mono); font-size:.72rem; color:var(--steel); margin-top:13px; letter-spacing:.04em; text-transform:uppercase; }
+  .school-achievement{ display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
+  .rank-label{ font-family:var(--mono); font-size:.68rem; letter-spacing:.13em; text-transform:uppercase; color:var(--steel); }
+  .rank-number{ font-family:var(--display); font-weight:700; font-size:clamp(2rem,4vw,3.1rem); line-height:1; color:var(--hv); margin:5px 0 3px; }
+  .rank-caption{ font-family:var(--mono); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--paper-dim); }
+  .school-highlight{ display:inline-flex; align-items:center; gap:8px; margin-top:13px; font-family:var(--mono); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--paper); }
+  .school-highlight::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--hv); box-shadow:0 0 0 4px rgba(255,106,26,.12); }
+  @media (max-width:780px){ .school-record{ grid-template-columns:1fr; } }
+
   /* ---------- MODULE RECORD DROPDOWN ---------- */
-  .module-record{ margin-top: 1px; }
+  .module-record{ margin-top: 0; grid-column: 1 / -1; border-top: 1px solid var(--hairline); }
   .module-record summary{
     list-style: none;
     cursor: pointer;
@@ -947,46 +969,64 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
         <span class="gpa-scale">out of 5.00</span>
         <div class="gpa-bar"><div class="gpa-bar-fill"></div></div>
       </div>
+      <details class="module-record">
+        <span class="corner-tl"></span><span class="corner-br"></span>
+        <summary>
+          <span>Module Record — Grade A- and above<span class="module-count">(21)</span></span>
+          <span class="arrow">&#9660;</span>
+        </summary>
+        <div class="module-table-wrap">
+          <table class="module-table">
+            <thead>
+              <tr><th>Code</th><th>Module</th><th style="text-align:right;">Grade</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="code">CS1010E</td><td>Programming Methodology</td><td class="grade">A+</td></tr>
+              <tr><td class="code">EG1311</td><td>Design and Make</td><td class="grade">A</td></tr>
+              <tr><td class="code">MA1505</td><td>Mathematics I</td><td class="grade">A</td></tr>
+              <tr><td class="code">ME1102</td><td>Engineering Principles and Practice I</td><td class="grade">A</td></tr>
+              <tr><td class="code">GEA1000</td><td>Quantitative Reasoning with Data</td><td class="grade">A-</td></tr>
+              <tr><td class="code">MA1512</td><td>Differential Equations for Engineering</td><td class="grade">A+</td></tr>
+              <tr><td class="code">MA1513</td><td>Linear Algebra with Differential Equations</td><td class="grade">A+</td></tr>
+              <tr><td class="code">ME2104</td><td>Engineering Principles and Practice II</td><td class="grade">A+</td></tr>
+              <tr><td class="code">ME2112</td><td>Strength of Materials</td><td class="grade">A+</td></tr>
+              <tr><td class="code">ME2134</td><td>Fluid Mechanics I</td><td class="grade">A+</td></tr>
+              <tr><td class="code">EE2211</td><td>Introduction to Machine Learning</td><td class="grade">A</td></tr>
+              <tr><td class="code">ME2121</td><td>Engineering Thermodynamics and Heat Transfer</td><td class="grade">A+</td></tr>
+              <tr><td class="code">ME2162</td><td>Manufacturing Processes</td><td class="grade">A</td></tr>
+              <tr><td class="code">CDE2300</td><td>Product Design and Innovation</td><td class="grade">A-</td></tr>
+              <tr><td class="code">GEN2001</td><td>Theatre and Community Engagement</td><td class="grade">A-</td></tr>
+              <tr><td class="code">ME2102</td><td>Engineering Innovation and Modelling</td><td class="grade">A+</td></tr>
+              <tr><td class="code">ME3115</td><td>Mechanics of Machines</td><td class="grade">A</td></tr>
+              <tr><td class="code">ME3142</td><td>Feedback Control Systems</td><td class="grade">A+</td></tr>
+              <tr><td class="code">EG2401A</td><td>Engineering Professionalism</td><td class="grade">A-</td></tr>
+              <tr><td class="code">ME2135</td><td>Intermediate Fluid Mechanics</td><td class="grade">A-</td></tr>
+              <tr><td class="code">ME4231</td><td>Aerodynamics</td><td class="grade">A-</td></tr>
+            </tbody>
+          </table>
+          <div class="module-note">Showing modules graded A- and above. Full transcript available on request.</div>
+        </div>
+      </details>
     </div>
 
-    <details class="module-record drawing-panel reveal">
+    <div class="school-record drawing-panel reveal">
       <span class="corner-tl"></span><span class="corner-br"></span>
-      <summary>
-        <span>Module Record — Grade A- and above<span class="module-count">(21)</span></span>
-        <span class="arrow">&#9660;</span>
-      </summary>
-      <div class="module-table-wrap">
-        <table class="module-table">
-          <thead>
-            <tr><th>Code</th><th>Module</th><th style="text-align:right;">Grade</th></tr>
-          </thead>
-          <tbody>
-            <tr><td class="code">CS1010E</td><td>Programming Methodology</td><td class="grade">A+</td></tr>
-            <tr><td class="code">EG1311</td><td>Design and Make</td><td class="grade">A</td></tr>
-            <tr><td class="code">MA1505</td><td>Mathematics I</td><td class="grade">A</td></tr>
-            <tr><td class="code">ME1102</td><td>Engineering Principles and Practice I</td><td class="grade">A</td></tr>
-            <tr><td class="code">GEA1000</td><td>Quantitative Reasoning with Data</td><td class="grade">A-</td></tr>
-            <tr><td class="code">MA1512</td><td>Differential Equations for Engineering</td><td class="grade">A+</td></tr>
-            <tr><td class="code">MA1513</td><td>Linear Algebra with Differential Equations</td><td class="grade">A+</td></tr>
-            <tr><td class="code">ME2104</td><td>Engineering Principles and Practice II</td><td class="grade">A+</td></tr>
-            <tr><td class="code">ME2112</td><td>Strength of Materials</td><td class="grade">A+</td></tr>
-            <tr><td class="code">ME2134</td><td>Fluid Mechanics I</td><td class="grade">A+</td></tr>
-            <tr><td class="code">EE2211</td><td>Introduction to Machine Learning</td><td class="grade">A</td></tr>
-            <tr><td class="code">ME2121</td><td>Engineering Thermodynamics and Heat Transfer</td><td class="grade">A+</td></tr>
-            <tr><td class="code">ME2162</td><td>Manufacturing Processes</td><td class="grade">A</td></tr>
-            <tr><td class="code">CDE2300</td><td>Product Design and Innovation</td><td class="grade">A-</td></tr>
-            <tr><td class="code">GEN2001</td><td>Theatre and Community Engagement</td><td class="grade">A-</td></tr>
-            <tr><td class="code">ME2102</td><td>Engineering Innovation and Modelling</td><td class="grade">A+</td></tr>
-            <tr><td class="code">ME3115</td><td>Mechanics of Machines</td><td class="grade">A</td></tr>
-            <tr><td class="code">ME3142</td><td>Feedback Control Systems</td><td class="grade">A+</td></tr>
-            <tr><td class="code">EG2401A</td><td>Engineering Professionalism</td><td class="grade">A-</td></tr>
-            <tr><td class="code">ME2135</td><td>Intermediate Fluid Mechanics</td><td class="grade">A-</td></tr>
-            <tr><td class="code">ME4231</td><td>Aerodynamics</td><td class="grade">A-</td></tr>
-          </tbody>
-        </table>
-        <div class="module-note">Showing modules graded A- and above. Full transcript available on request.</div>
+      <div class="school-cell">
+        <div class="school-inst">Lyceum International School</div>
+        <div class="school-degree">Cambridge International A Levels</div>
+        <div class="school-degree">Cambridge International O Levels</div>
+        <div class="school-degree">Education: Up to A/L</div>
+        <div class="school-meta">Secondary Education</div>
       </div>
-    </details>
+      <div class="school-cell school-achievement">
+        <span class="rank-label">Cambridge International A/L Achievement</span>
+        <span class="rank-number">#1</span>
+        <span class="rank-caption">Rank in Sri Lanka</span>
+        <span class="school-highlight">4A* at A Level</span>
+      </div>
+    </div>
+
+
   </div>
 </section>
 
