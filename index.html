@@ -57,7 +57,7 @@
     z-index: -1;
     pointer-events: none;
     display: block;
-    opacity: 0.65; /* Darkened grid for higher contrast in default light theme */
+    opacity: 0.65;
     mix-blend-mode: multiply;
   }
 
@@ -689,13 +689,14 @@
     background: rgba(14, 17, 20, 0.88);
     backdrop-filter: blur(4px);
     z-index: 10;
+    opacity: 1;
+    visibility: visible;
     transition: opacity 0.4s ease, visibility 0.4s ease;
     pointer-events: none;
   }
   
-  /* MODEL-VIEWER HIDE STATE RULE */
-  .cad-loader-slot.hide,
-  model-viewer:not([aria-busy="true"]) .cad-loader-slot {
+  /* HIDE STATE RULE */
+  .cad-loader-slot.hide {
     opacity: 0 !important;
     visibility: hidden !important;
   }
