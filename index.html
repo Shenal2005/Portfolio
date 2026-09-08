@@ -143,6 +143,7 @@
     max-width: 100%;
     height: auto;
     opacity: 0.72;
+    transition: opacity 0.3s ease, filter 0.3s ease;
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -813,6 +814,20 @@ body.light-theme{
 
   background:var(--ink) !important;
   color:var(--paper) !important;
+}
+
+/* Fix for car image fading in light theme */
+body.light-theme .hero-photo img{
+  opacity: 0.92 !important;
+  filter: contrast(1.08) brightness(0.96);
+}
+
+/* Light theme logo replacements */
+body.light-theme .education-brand img{
+  content: url("images/nus-logo-light.png");
+}
+body.light-theme .experience-brand img{
+  content: url("images/fsae-logo-light.png");
 }
 
 body.light-theme nav{
