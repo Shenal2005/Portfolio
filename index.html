@@ -595,8 +595,15 @@
     background: rgba(14, 17, 20, 0.88);
     backdrop-filter: blur(4px);
     z-index: 10;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
   }
+  /* MODEL-VIEWER HIDE STATE RULE */
+  .cad-loader-slot.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   .cad-spinner {
     width: 38px;
     height: 38px;
@@ -1389,14 +1396,21 @@ body.light-theme .theme-toggle:hover{border-color:var(--hv);}
   }, { threshold: 0.12 });
   reveals.forEach(el => io.observe(el));
 
-  // Dynamic Loading Progress Counter for CAD Models
+  // Dynamic Loading Progress Counter & Dismissal for CAD Models
   document.querySelectorAll('model-viewer').forEach(viewer => {
     const percentLabel = viewer.querySelector('.cad-percent');
-    if (!percentLabel) return;
+    const slot = viewer.querySelector('.cad-loader-slot');
 
     viewer.addEventListener('progress', (event) => {
       const progress = Math.round(event.detail.totalProgress * 100);
-      percentLabel.textContent = `${progress}%`;
+      if (percentLabel) percentLabel.textContent = `${progress}%`;
+      if (progress >= 100 && slot) {
+        slot.classList.add('hide');
+      }
+    });
+
+    viewer.addEventListener('load', () => {
+      if (slot) slot.classList.add('hide');
     });
   });
 
