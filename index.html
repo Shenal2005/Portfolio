@@ -764,80 +764,124 @@
 
 
 /* THEME TOGGLE */
-:root {
-  --theme-bg: #080b0d;
-  --theme-panel: #0d1215;
-  --theme-text: #e8eef0;
-  --theme-muted: #8fa0a8;
-  --theme-line: rgba(143,160,168,.22);
+:root{
+  --theme-bg:#080b0d;
+  --theme-panel:#0d1215;
+  --theme-text:#e8eef0;
+  --theme-muted:#8fa0a8;
+  --theme-line:rgba(143,160,168,.22);
 }
-body.light-theme {
-  --theme-bg: #f2f4f3;
-  --theme-panel: #ffffff;
-  --theme-text: #172126;
-  --theme-muted: #52636b;
-  --theme-line: rgba(23,33,38,.20);
-  background: var(--theme-bg) !important;
-  color: var(--theme-text) !important;
+
+/* Light theme: deliberately re-map the original design tokens so every
+   section inherits the correct contrast instead of requiring dozens of
+   component-specific overrides. */
+body.light-theme{
+  --ink:#f4f5f3;
+  --panel:#ffffff;
+  --paper:#172126;
+  --paper-dim:#5b6970;
+  --hv:#ff6a1a;
+  --hv-dim:#c64f0f;
+  --steel:#60727c;
+  --grid-line:rgba(23,33,38,.065);
+  --hairline:rgba(23,33,38,.16);
+
+  --theme-bg:#f4f5f3;
+  --theme-panel:#ffffff;
+  --theme-text:#172126;
+  --theme-muted:#52636b;
+  --theme-line:rgba(23,33,38,.16);
+
+  background:var(--ink) !important;
+  color:var(--paper) !important;
 }
-body.light-theme .drawing-panel,
-body.light-theme .proj-card,
-body.light-theme .cert-card,
-body.light-theme .award-group {
-  background: var(--theme-panel) !important;
-  color: var(--theme-text) !important;
-  border-color: var(--theme-line) !important;
-}
-body.light-theme .nav,
-body.light-theme .site-header {
-  background: rgba(242,244,243,.88) !important;
+
+body.light-theme nav{
+  background:rgba(244,245,243,.90) !important;
+  border-bottom-color:var(--hairline) !important;
 }
 body.light-theme .nav-link,
+body.light-theme .nav-mark,
+body.light-theme .hero-sub,
+body.light-theme .section-kicker,
 body.light-theme .t-list,
 body.light-theme .proj-desc,
 body.light-theme .cert-date,
 body.light-theme .cert-provider,
-body.light-theme .award-text {
-  color: var(--theme-muted) !important;
+body.light-theme .award-text{
+  color:var(--paper-dim) !important;
 }
-body.light-theme .hero-sub,
-body.light-theme .section-kicker {
-  color: var(--theme-muted) !important;
-}
-body.light-theme #grid-bg {
-  opacity: .25;
-}
-body.light-theme .theme-toggle {
-  color: var(--theme-text);
-  border-color: var(--theme-line);
-  background: rgba(255,255,255,.72);
-}
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 12px;
-  padding: 8px 11px;
-  border: 1px solid rgba(143,160,168,.28);
-  background: rgba(8,11,13,.45);
-  color: #e8eef0;
-  font: inherit;
-  font-size: 11px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: .2s ease;
-}
-.theme-toggle:hover {
-  border-color: var(--hv, #ff6a1a);
-  transform: translateY(-1px);
-}
-.theme-toggle .theme-icon { font-size: 13px; line-height: 1; }
-@media(max-width:780px){
-  .theme-toggle { margin-left: 6px; padding: 7px 9px; }
-  .theme-toggle .theme-label { display:none; }
+body.light-theme .hero-sub{color:#53636b !important;}
+body.light-theme .section-title,
+body.light-theme .proj-title,
+body.light-theme .cert-name,
+body.light-theme .award-title,
+body.light-theme .comparison-title,
+body.light-theme .drawing-title,
+body.light-theme .hero-title,
+body.light-theme .edu-title,
+body.light-theme .exp-title{
+  color:var(--paper) !important;
 }
 
+body.light-theme .drawing-panel,
+body.light-theme .proj-card,
+body.light-theme .cert-card,
+body.light-theme .award-group{
+  background:var(--panel) !important;
+  color:var(--paper) !important;
+  border-color:var(--hairline) !important;
+  box-shadow:0 8px 30px rgba(23,33,38,.045);
+}
+
+body.light-theme .impact-grid,
+body.light-theme .comparison-caption{
+  background:rgba(255,106,26,.045) !important;
+}
+body.light-theme .impact-grid > div{border-color:var(--hairline) !important;}
+body.light-theme .comparison-caption{border-left-color:var(--hv) !important;}
+body.light-theme .comparison-caption span:last-child{color:var(--steel) !important;}
+
+/* Keep the CAD canvases dark for maximum model readability. */
+body.light-theme .comparison-viewer,
+body.light-theme model-viewer{
+  background:#3f4346 !important;
+}
+
+body.light-theme #grid-bg{opacity:.34;}
+body.light-theme ::selection{background:var(--hv);color:#fff;}
+body.light-theme .theme-toggle{
+  color:var(--paper);
+  border-color:var(--hairline);
+  background:rgba(255,255,255,.78);
+}
+body.light-theme .theme-toggle:hover{border-color:var(--hv);}
+
+.theme-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-left:12px;
+  padding:8px 11px;
+  border:1px solid rgba(143,160,168,.28);
+  background:rgba(8,11,13,.45);
+  color:#e8eef0;
+  font:inherit;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.theme-toggle:hover{
+  border-color:var(--hv,#ff6a1a);
+  transform:translateY(-1px);
+}
+.theme-toggle .theme-icon{font-size:13px;line-height:1;}
+@media(max-width:780px){
+  .theme-toggle{margin-left:6px;padding:7px 9px;}
+  .theme-toggle .theme-label{display:none;}
+}
 </style>
 
 <!-- Interactive CAD viewer -->
